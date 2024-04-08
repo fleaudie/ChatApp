@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1026493710582",
+    "project_id": "chatapp-e59a2",
+    "storage_bucket": "chatapp-e59a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026493710582:android:552ad028d97b362894ecd7",
+        "android_client_info": {
+          "package_name": "com.fleaudie.chatapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5Vi6v2OrmOr-fQKXxf8u7ZJYzH6xAnVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
