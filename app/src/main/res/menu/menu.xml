@@ -4,11 +4,14 @@
 
     <item
         android:id="@+id/chatFragment"
+        android:icon="@drawable/chat_icon"
         android:title="Chats" />
     <item
         android:id="@+id/contactsFragment"
+        android:icon="@drawable/contact_icon"
         android:title="Contacts" />
     <item
         android:id="@+id/userProfileFragment"
+        android:icon="@drawable/profile_icon"
         android:title="Profile" />
 </menu>
