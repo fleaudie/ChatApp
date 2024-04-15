@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="fragmentSignIn"
+            type="com.fleaudie.chatapp.view.SignInFragment" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -68,6 +74,7 @@
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/background"
             android:text="@string/sign_in"
+            android:onClick="@{() -> fragmentSignIn.signIn()}"
             android:textColor="@color/text_color"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/editTextPhone"

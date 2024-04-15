@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -25,31 +26,38 @@ class SignUpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment.
-        binding = FragmentSignUpBinding.inflate(inflater, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
+        binding.fragmentSignUp = this
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize NavController for fragment navigation.
-        navController = Navigation.findNavController(view)
+        // Initialize NavController
+        navController = Navigation.findNavController(requireView())
 
         // Initialize SignUpViewModel.
-        signUpViewModel = ViewModelProvider(requireActivity())[SignUpViewModel::class.java]
+        signUpViewModel = ViewModelProvider(this)[SignUpViewModel::class.java]
         signUpViewModel.setActivity(requireActivity(), navController)
         signUpViewModel.init()
+    }
+    fun signIn(){
+        view?.let { Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_signInFragment) }
+    }
 
-        // Set click listeners for sign-up and sign-in buttons.
-        binding.btnSignUp.setOnClickListener {
-            val countryCode = binding.countyCodePicker.selectedCountryCode
-            val number = binding.editTextPhone.text.toString()
-            val phoneNumber = "+$countryCode$number"
-            Log.d("SignUpFragment", "Phone number: $phoneNumber")
-            signUpViewModel.signUp(phoneNumber)
-        }
-        binding.txtSignIn.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_signInFragment)
-        }
+    fun signUp(){
+        val countryCode = binding.countyCodePicker.selectedCountryCode
+        val number = binding.editTextPhone.text.toString()
+        val phNumber = "+$countryCode$number"
+
+        val name = binding.editTextName.text.toString()
+        val surname = binding.editTextSurname.text.toString()
+
+        Log.d("SignUpFragment", "Phone number: $phNumber")
+        signUpViewModel.signUp(phNumber)
+        signUpViewModel.addFirestore(name,surname,phNumber)
+
     }
 }
