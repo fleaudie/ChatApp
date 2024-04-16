@@ -127,6 +127,12 @@ class SignUpViewModel : ViewModel() {
             }
     }
 
+    fun checkIfUserLoggedIn(){
+        if (auth.currentUser != null){
+            navController.navigate(R.id.action_signUpFragment_to_chatFragment)
+        }
+    }
+
 }
 
 

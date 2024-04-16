@@ -96,11 +96,13 @@
 
         <TextView
             android:id="@+id/txtSignUp"
-            android:layout_width="48dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
             android:clickable="true"
             android:focusable="true"
+            android:onClick="@{() -> fragmentSignIn.signUp()}"
             android:text="@string/sign_up"
+            android:textAlignment="center"
             android:textColor="@color/text_color"
             app:layout_constraintEnd_toEndOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="@+id/textView2"

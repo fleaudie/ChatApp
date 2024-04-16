@@ -43,6 +43,7 @@ class SignUpFragment : Fragment() {
         signUpViewModel.setActivity(requireActivity(), navController)
         signUpViewModel.init()
     }
+
     fun signIn(){
         view?.let { Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_signInFragment) }
     }
@@ -59,5 +60,10 @@ class SignUpFragment : Fragment() {
         signUpViewModel.signUp(phNumber)
         signUpViewModel.addFirestore(name,surname,phNumber)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        signUpViewModel.checkIfUserLoggedIn()
     }
 }
