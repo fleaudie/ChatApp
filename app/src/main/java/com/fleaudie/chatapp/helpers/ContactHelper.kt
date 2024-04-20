@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.provider.ContactsContract
 import android.util.Log
-import com.fleaudie.chatapp.model.Contact
+import com.fleaudie.chatapp.data.model.Contact
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="itemContactObject"
-            type="com.fleaudie.chatapp.model.Contact" />
+            type="com.fleaudie.chatapp.data.model.Contact" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

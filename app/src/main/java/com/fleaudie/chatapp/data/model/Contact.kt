@@ -1,4 +1,4 @@
-package com.fleaudie.chatapp.model
+package com.fleaudie.chatapp.data.model
 
 data class Contact(
     val contactName: String,

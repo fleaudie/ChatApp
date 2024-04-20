@@ -7,63 +7,71 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.fleaudie.chatapp.R
+import com.fleaudie.chatapp.data.datasource.AuthDataSource
+import com.fleaudie.chatapp.data.repository.AuthRepository
 import com.fleaudie.chatapp.databinding.FragmentSignUpBinding
 import com.fleaudie.chatapp.viewmodel.SignUpViewModel
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 
 class SignUpFragment : Fragment() {
-
-    // SignUpFragment handles user sign-up UI and interactions.
-    private lateinit var binding: FragmentSignUpBinding
-    private lateinit var signUpViewModel: SignUpViewModel
+    private lateinit var binding : FragmentSignUpBinding
+    private lateinit var viewModel : SignUpViewModel
     private lateinit var navController: NavController
+    private var user = FirebaseAuth.getInstance().currentUser?.uid
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment.
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
         binding.fragmentSignUp = this
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Initialize NavController
-        navController = Navigation.findNavController(requireView())
-
-        // Initialize SignUpViewModel.
-        signUpViewModel = ViewModelProvider(this)[SignUpViewModel::class.java]
-        signUpViewModel.setActivity(requireActivity(), navController)
-        signUpViewModel.init()
-    }
-
-    fun signIn(){
-        view?.let { Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_signInFragment) }
+        navController = Navigation.findNavController(view)
     }
 
     fun signUp(){
-        val countryCode = binding.countyCodePicker.selectedCountryCode
-        val number = binding.editTextPhone.text.toString()
-        val phNumber = "+$countryCode$number"
 
+        val countryCode = binding.countyCodePicker.selectedCountryCode.toString()
+        val number = binding.editTextPhone.text.toString()
         val name = binding.editTextName.text.toString()
         val surname = binding.editTextSurname.text.toString()
+        val phoneNumber = "+$countryCode$number"
 
-        Log.d("SignUpFragment", "Phone number: $phNumber")
-        signUpViewModel.signUp(phNumber)
-        signUpViewModel.addFirestore(name,surname,phNumber)
+        viewModel.checkPhoneNumberInDatabase(phoneNumber, {
+            viewModel.sendVerificationCode(this,phoneNumber, name, surname)
+        }, {
+            view?.let {
+                Snackbar.make(it, "Phone number already exist. Please sign in.",  Snackbar.LENGTH_SHORT)
+                    .setAction("Yes"){
+                        navController.navigate(R.id.action_signUpFragment_to_signInFragment)
+                    }
+                    .show()
+            }
+        })
+        Log.d("SignUpFragment", "Phone number: $phoneNumber")
+
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        signUpViewModel.checkIfUserLoggedIn()
+    fun signIn(){
+        navController.navigate(R.id.action_signUpFragment_to_signInFragment)
     }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val authRepository = AuthRepository(AuthDataSource(requireContext()))
+        viewModel = SignUpViewModel(authRepository)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (user != null){
+            navController.navigate(R.id.action_signUpFragment_to_chatFragment)
+        }
+    }
+
 }

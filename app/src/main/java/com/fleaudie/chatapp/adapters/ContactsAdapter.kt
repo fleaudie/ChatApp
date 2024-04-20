@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.fleaudie.chatapp.R
 import com.fleaudie.chatapp.databinding.ItemContactsBinding
-import com.fleaudie.chatapp.model.Contact
+import com.fleaudie.chatapp.data.model.Contact
 
 class ContactsAdapter(private val contacts: List<Contact>, private var mContext: Context) : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
     inner class ContactViewHolder(var view: ItemContactsBinding) : RecyclerView.ViewHolder(view.root)

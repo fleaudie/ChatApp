@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.fleaudie.chatapp.R
+import com.fleaudie.chatapp.data.datasource.AuthDataSource
+import com.fleaudie.chatapp.data.repository.AuthRepository
 import com.fleaudie.chatapp.databinding.FragmentSignInBinding
 import com.fleaudie.chatapp.viewmodel.SignInViewModel
+import com.fleaudie.chatapp.viewmodel.SignUpViewModel
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -31,30 +34,35 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
 
-        // Initialize NavController
-        navController = Navigation.findNavController(requireView())
-
-        // Initialize SignUpViewModel.
-        signInViewModel = ViewModelProvider(this)[SignInViewModel::class.java]
-        signInViewModel.setActivity(requireActivity(), navController)
-        signInViewModel.initFirebaseAuth()
     }
 
     fun signIn(){
-        val phNumber = binding.editTextPhone.text.toString()
-        val cp = binding.countyCodePicker.selectedCountryCode
+        val number = binding.editTextPhone.text.toString()
+        val countryPicker = binding.countyCodePicker.selectedCountryCode.toString()
+        val phoneNumber = "+$countryPicker$number"
 
-        val phoneNumber = "+$cp$phNumber"
-
-        if (phoneNumber.isEmpty() || phoneNumber.length != 13) {
-            view?.let { Snackbar.make(it, "Please enter a valid phone number", Snackbar.LENGTH_SHORT).show() }
-        }
-
-        signInViewModel.signInWithPhoneNumber(phoneNumber)
+        signInViewModel.checkPhoneNumberInDatabase(phoneNumber, {
+            view?.let {
+                Snackbar.make(it, "Phone number doesn't exist. Please sign up.",  Snackbar.LENGTH_SHORT)
+                    .setAction("Yes"){
+                        navController.navigate(R.id.action_signInFragment_to_signUpFragment)
+                    }
+                    .show()
+            }
+        }, {
+            signInViewModel.sendVerificationCode(this, phoneNumber)
+        })
     }
 
     fun signUp(){
-        view?.let { Navigation.findNavController(it).navigate(R.id.action_signInFragment_to_signUpFragment) }
+        navController.navigate(R.id.action_signInFragment_to_signUpFragment)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val authRepository = AuthRepository(AuthDataSource(requireContext()))
+        signInViewModel = SignInViewModel(authRepository)
     }
 }

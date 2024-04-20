@@ -15,7 +15,6 @@ import com.fleaudie.chatapp.databinding.FragmentContactsBinding
 import com.fleaudie.chatapp.helpers.ContactHelper
 import com.fleaudie.chatapp.viewmodel.ContactViewModel
 import com.fleaudie.chatapp.viewmodel.ContactViewModel.Companion.PERMISSIONS_REQUEST_CODE
-import com.fleaudie.chatapp.viewmodel.SignInViewModel
 
 class ContactsFragment : Fragment() {
     private lateinit var binding : FragmentContactsBinding
