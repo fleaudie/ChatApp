@@ -119,29 +119,5 @@
             app:strokeColor="@color/text_color"
             app:strokeWidth="2dp" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/have_account"
-            android:textColor="@color/hint_color"
-            app:layout_constraintEnd_toEndOf="@+id/btnSignUp"
-            app:layout_constraintStart_toStartOf="@+id/btnSignUp"
-            app:layout_constraintTop_toBottomOf="@+id/btnSignUp" />
-
-        <TextView
-            android:id="@+id/txtSignIn"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{() -> fragmentSignUp.signIn()}"
-            android:text="@string/sign_in"
-            android:textAlignment="center"
-            android:textColor="@color/text_color"
-            app:layout_constraintEnd_toEndOf="@+id/textView2"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

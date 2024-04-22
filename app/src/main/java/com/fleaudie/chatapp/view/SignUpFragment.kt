@@ -14,7 +14,6 @@ import com.fleaudie.chatapp.data.datasource.AuthDataSource
 import com.fleaudie.chatapp.data.repository.AuthRepository
 import com.fleaudie.chatapp.databinding.FragmentSignUpBinding
 import com.fleaudie.chatapp.viewmodel.SignUpViewModel
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
 class SignUpFragment : Fragment() {
@@ -35,32 +34,16 @@ class SignUpFragment : Fragment() {
     }
 
     fun signUp(){
-
         val countryCode = binding.countyCodePicker.selectedCountryCode.toString()
         val number = binding.editTextPhone.text.toString()
         val name = binding.editTextName.text.toString()
         val surname = binding.editTextSurname.text.toString()
         val phoneNumber = "+$countryCode$number"
 
-        viewModel.checkPhoneNumberInDatabase(phoneNumber, {
-            viewModel.sendVerificationCode(this,phoneNumber, name, surname)
-        }, {
-            view?.let {
-                Snackbar.make(it, "Phone number already exist. Please sign in.",  Snackbar.LENGTH_SHORT)
-                    .setAction("Yes"){
-                        navController.navigate(R.id.action_signUpFragment_to_signInFragment)
-                    }
-                    .show()
-            }
-        })
+        viewModel.sendVerificationCode(this, phoneNumber, name, surname)
         Log.d("SignUpFragment", "Phone number: $phoneNumber")
-
-
     }
 
-    fun signIn(){
-        navController.navigate(R.id.action_signUpFragment_to_signInFragment)
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val authRepository = AuthRepository(AuthDataSource(requireContext()))

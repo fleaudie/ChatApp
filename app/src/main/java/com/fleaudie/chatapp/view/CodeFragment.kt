@@ -7,30 +7,42 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.fleaudie.chatapp.R
 import com.fleaudie.chatapp.data.datasource.AuthDataSource
 import com.fleaudie.chatapp.data.repository.AuthRepository
 import com.fleaudie.chatapp.databinding.FragmentCodeBinding
 import com.fleaudie.chatapp.viewmodel.CodeViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 
 class CodeFragment : Fragment() {
     private lateinit var binding: FragmentCodeBinding
     private lateinit var viewModel: CodeViewModel
     private lateinit var verificationId: String
+    private lateinit var name: String
+    private lateinit var surname: String
+    private lateinit var phoneNumber: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_code, container, false)
         binding.fragmentCode = this
 
-        arguments?.let {
-            verificationId = CodeFragmentArgs.fromBundle(it).verificationId
-        }
+        val args: CodeFragmentArgs by navArgs()
+            verificationId = args.verificationId
+            name = args.name
+            surname = args.surname
+            phoneNumber = args.phoneNumber
+
 
         viewModel.verificationResult.observe(viewLifecycleOwner) { success ->
             if (success) {
                 Navigation.findNavController(requireView())
                     .navigate(R.id.action_codeFragment_to_chatFragment)
+                val uid = FirebaseAuth.getInstance().currentUser?.uid
+                if (uid != null) {
+                    viewModel.writeUserData(phoneNumber, uid, name, surname)
+                }
             } else {
                 view?.let { Snackbar.make(it, "Wrong Otp!", Snackbar.LENGTH_SHORT).show() }
             }

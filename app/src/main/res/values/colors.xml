@@ -6,4 +6,5 @@
     <color name="text_color">#151515</color>
     <color name="hint_color">#4C4C4C</color>
     <color name="bg_white">#FFFFFFFF</color>
+    <color name="light_pink">#FFF1F1</color>
 </resources>

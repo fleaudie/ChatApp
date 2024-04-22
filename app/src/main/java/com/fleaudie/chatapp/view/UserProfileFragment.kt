@@ -32,6 +32,6 @@ class UserProfileFragment : Fragment() {
 
     fun signOut(){
         userProfileViewModel.logOut()
-        view?.let { Navigation.findNavController(it).navigate(R.id.action_userProfileFragment_to_signInFragment) }
+        view?.let { Navigation.findNavController(it).navigate(R.id.action_userProfileFragment_to_signUpFragment) }
     }
 }

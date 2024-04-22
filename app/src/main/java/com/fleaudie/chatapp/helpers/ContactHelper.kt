@@ -11,28 +11,59 @@ import com.google.firebase.firestore.FirebaseFirestore
 class ContactHelper(private val contentResolver: ContentResolver) {
     private val firestore = FirebaseFirestore.getInstance()
     private val currentUser = FirebaseAuth.getInstance().currentUser
+    private val db = FirebaseFirestore.getInstance()
 
     fun saveContactsToFirestore() {
         currentUser?.let { user ->
             val contactsList = getContactsFromDevice()
 
-            for (contact in contactsList) {
-                val userContactsRef = firestore.collection("users").document(user.uid).collection("contacts")
-
-                val contactData = hashMapOf(
-                    "name" to contact.contactName,
-                    "phoneNumber" to contact.contactNumber
-                )
-
-                userContactsRef.add(contactData)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+            val userContactsRef = firestore.collection("users").document(user.uid).collection("contacts")
+            userContactsRef.get()
+                .addOnSuccessListener { documents ->
+                    val existingContacts = HashSet<String>()
+                    for (document in documents) {
+                        val phoneNumber = document.getString("phoneNumber")
+                        phoneNumber?.let { existingContacts.add(it) }
                     }
-                    .addOnFailureListener { e ->
-                        Log.e(TAG, "Error adding document", e)
+
+                    for (contact in contactsList) {
+                        if (!existingContacts.contains(contact.contactNumber)) {
+                            val contactData = hashMapOf(
+                                "name" to contact.contactName,
+                                "phoneNumber" to contact.contactNumber
+                            )
+
+                            userContactsRef.add(contactData)
+                                .addOnSuccessListener { documentReference ->
+                                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.e(TAG, "Error adding document", e)
+                                }
+                        }
                     }
-            }
+                }
+                .addOnFailureListener { e ->
+                    Log.e(TAG, "Error getting existing contacts", e)
+                }
         }
+    }
+
+    fun checkPhoneNumber(phoneNumber: String, onSuccess: (uid: String?) -> Unit, onFail: () -> Unit) {
+        db.collection("users")
+            .whereEqualTo("phoneNumber", phoneNumber)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val uid = documents.documents[0].id
+                    onSuccess(uid)
+                } else {
+                    onFail()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "Error checking phone number", e)
+            }
     }
 
     @SuppressLint("Range")

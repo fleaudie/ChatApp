@@ -1,14 +1,9 @@
 package com.fleaudie.chatapp.viewmodel
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.fleaudie.chatapp.data.datasource.AuthDataSource
 import com.fleaudie.chatapp.data.repository.AuthRepository
-import com.google.firebase.auth.PhoneAuthProvider
-
 class CodeViewModel(private var repository: AuthRepository) : ViewModel() {
 
     private val _verificationResult = MutableLiveData<Boolean>()
@@ -20,5 +15,9 @@ class CodeViewModel(private var repository: AuthRepository) : ViewModel() {
             _verificationResult.postValue(success)
         }
 
+    }
+
+    fun writeUserData(phoneNumber: String, uid: String, name: String, surname: String) {
+        repository.writeUserData(phoneNumber,uid, name, surname)
     }
 }

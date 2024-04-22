@@ -32,7 +32,7 @@ class ContactsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         contactViewModel = ViewModelProvider(this)[ContactViewModel::class.java]
         if (contactViewModel.checkPermissions(requireContext())) {
-            val contactsHelper = ContactHelper(requireContext().contentResolver)
+            val contactsHelper = ContactHelper(requireContext().contentResolver, )
             val contactsList = contactsHelper.getContactsFromDevice()
             contactsHelper.saveContactsToFirestore()
 

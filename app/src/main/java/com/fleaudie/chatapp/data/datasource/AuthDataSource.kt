@@ -4,12 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AuthDataSource(private val context: Context) {
-    private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
     fun sendVerificationCode(
         phoneNumber: String,
@@ -22,17 +20,6 @@ class AuthDataSource(private val context: Context) {
             context as Activity,
             callbacks
         )
-    }
-
-    fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d("SignIn", "successful")
-                } else {
-                    Log.d("SignIn", "failed")
-                }
-            }
     }
 
     fun verifyOtp(verificationId: String, otpCode: String, callback: (Boolean) -> Unit) {
@@ -51,9 +38,9 @@ class AuthDataSource(private val context: Context) {
     fun writeUserData(phoneNumber: String, uid: String, name: String, surname: String) {
         val user = hashMapOf(
             "phoneNumber" to phoneNumber,
+            "uid" to uid,
             "name" to name,
             "surname" to surname,
-            "uid" to uid
         )
 
         db.collection("users")
@@ -80,7 +67,8 @@ class AuthDataSource(private val context: Context) {
                 }
             }
             .addOnFailureListener { exception ->
-                Log.e("AuthDataSource", "Numara kontrol edilemedi: $exception")
+                Log.e("AuthDataSource", "Check number error: $exception")
             }
     }
+
 }

@@ -9,9 +9,6 @@
         android:name="com.fleaudie.chatapp.view.SignUpFragment"
         android:label="SignUpFragment" >
         <action
-            android:id="@+id/action_signUpFragment_to_signInFragment"
-            app:destination="@id/signInFragment" />
-        <action
             android:id="@+id/action_signUpFragment_to_codeFragment"
             app:destination="@id/codeFragment" />
         <action
@@ -19,23 +16,9 @@
             app:destination="@id/chatFragment" />
     </fragment>
     <fragment
-        android:id="@+id/signInFragment"
-        android:name="com.fleaudie.chatapp.view.SignInFragment"
-        android:label="SignInFragment" >
-        <action
-            android:id="@+id/action_signInFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
-        <action
-            android:id="@+id/action_signInFragment_to_codeFragment"
-            app:destination="@id/codeFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/codeFragment"
         android:name="com.fleaudie.chatapp.view.CodeFragment"
         android:label="CodeFragment" >
-        <action
-            android:id="@+id/action_codeFragment_to_signInFragment"
-            app:destination="@id/signInFragment" />
         <action
             android:id="@+id/action_codeFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
@@ -43,6 +26,15 @@
             android:id="@+id/action_codeFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
         <argument android:name="verificationId"
+            app:argType="string" />
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="surname"
             app:argType="string" />
     </fragment>
     <fragment
@@ -70,6 +62,9 @@
         <action
             android:id="@+id/action_contactsFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_contactsFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
@@ -83,11 +78,21 @@
             android:id="@+id/action_userProfileFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
         <action
-            android:id="@+id/action_userProfileFragment_to_signInFragment"
-            app:destination="@id/signInFragment" />
+            android:id="@+id/action_userProfileFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/messageFragment"
         android:name="com.fleaudie.chatapp.view.MessageFragment"
-        android:label="MessageFragment" />
+        android:label="MessageFragment" >
+        <argument
+            android:name="uid"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_messageFragment_to_contactsFragment"
+            app:destination="@id/contactsFragment" />
+    </fragment>
 </navigation>
