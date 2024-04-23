@@ -15,7 +15,4 @@ class AuthRepository(private var dataSource: AuthDataSource) {
         dataSource.writeUserData(phoneNumber,uid, name, surname)
     }
 
-    fun checkPhoneNumberInDatabase(phoneNumber: String, onSuccess: () -> Unit, onFail: () -> Unit) {
-        dataSource.checkPhoneNumberInDatabase(phoneNumber, onSuccess, onFail)
-    }
 }
