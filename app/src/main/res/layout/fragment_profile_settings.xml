@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="userProfileObject"
-            type="com.fleaudie.chatapp.view.UserProfileFragment" />
+            name="profileSettings"
+            type="com.fleaudie.chatapp.view.ProfileSettingsFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,71 +58,66 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/light_pink">
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/settings"
-                    android:textColor="@color/text_color"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardViewProfile" />
+                android:layout_height="match_parent">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardViewAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:cardBackgroundColor="@color/light_pink"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4">
+                    app:layout_constraintTop_toBottomOf="@+id/cardViewProfile"
+                    android:onClick="@{()-> profileSettings.editName()}">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <ImageView
-                            android:id="@+id/imageViewAccount"
+                            android:id="@+id/imageViewName"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="25dp"
                             app:layout_constraintBottom_toBottomOf="@+id/textViewAccountInfo"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/textViewAccount"
+                            app:layout_constraintTop_toTopOf="@+id/textViewSetName"
                             app:srcCompat="@drawable/account_icon" />
 
                         <TextView
-                            android:id="@+id/textViewAccount"
+                            android:id="@+id/textViewSetName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="25dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="25dp"
-                            android:text="@string/account"
-                            android:textColor="@color/text_color"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/imageViewAccount"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="@string/name"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toStartOf="@+id/imageView"
+                            app:layout_constraintStart_toEndOf="@+id/imageViewName"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/textViewAccountInfo"
+                            android:id="@+id/textViewEditName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:layout_marginBottom="10dp"
-                            android:text="@string/account_info"
-                            android:textColor="@color/text_color"
-                            android:textSize="12sp"
+                            android:layout_marginBottom="15dp"
+                            android:text="@string/name"
+                            android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@+id/textViewAccount"
-                            app:layout_constraintStart_toStartOf="@+id/textViewAccount"
-                            app:layout_constraintTop_toBottomOf="@+id/textViewAccount" />
+                            app:layout_constraintEnd_toEndOf="@+id/textViewSetName"
+                            app:layout_constraintStart_toStartOf="@+id/textViewSetName"
+                            app:layout_constraintTop_toBottomOf="@+id/textViewSetName" />
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="25dp"
+                            android:src="@drawable/arrow_forward_icon"
+                            app:layout_constraintBottom_toBottomOf="@+id/textViewEditName"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textViewSetName" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -131,51 +126,38 @@
                     android:id="@+id/cardViewProfile"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:onClick="@{()-> userProfileObject.profileSettings()}"
-                    app:cardBackgroundColor="@color/bg_white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/light_pink">
+                        android:layout_height="wrap_content">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/imgUserPhoto"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:id="@+id/imgEditUserPhoto"
+                            android:layout_width="175dp"
+                            android:layout_height="175dp"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginBottom="25dp"
                             android:src="@drawable/empty_profile_image"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/txtUserName"
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/floatUploadImage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginTop="17dp"
-                            android:text="TextView"
-                            android:textColor="@color/text_color"
-                            android:textSize="16sp"
-                            app:layout_constraintStart_toEndOf="@+id/imgUserPhoto"
-                            app:layout_constraintTop_toTopOf="@+id/imgUserPhoto" />
+                            android:clickable="true"
+                            android:elevation="6dp"
+                            android:focusable="true"
+                            android:src="@drawable/camera_icon"
+                            app:backgroundTint="@color/background_pink"
+                            app:layout_constraintBottom_toBottomOf="@+id/imgEditUserPhoto"
+                            app:layout_constraintEnd_toEndOf="@+id/imgEditUserPhoto"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 
-                        <TextView
-                            android:id="@+id/txtUserNumber"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginBottom="17dp"
-                            android:text="TextView"
-                            android:textColor="@color/text_color"
-                            app:layout_constraintBottom_toBottomOf="@+id/imgUserPhoto"
-                            app:layout_constraintStart_toEndOf="@+id/imgUserPhoto" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -184,7 +166,6 @@
                     android:id="@+id/cardViewNotification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/light_pink"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardViewAccount">
@@ -198,54 +179,48 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="25dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/textViewNotificationInfo"
+                            app:layout_constraintBottom_toBottomOf="@+id/textViewEditSurname"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/textViewNotification"
+                            app:layout_constraintTop_toTopOf="@+id/textViewSetSurname"
                             app:srcCompat="@drawable/notification_icon" />
 
                         <TextView
-                            android:id="@+id/textViewNotification"
+                            android:id="@+id/textViewSetSurname"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="25dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="25dp"
-                            android:text="@string/notification"
-                            android:textColor="@color/text_color"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="@string/surname"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toStartOf="@+id/imageView2"
                             app:layout_constraintStart_toEndOf="@+id/imageViewNotification"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/textViewNotificationInfo"
+                            android:id="@+id/textViewEditSurname"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:layout_marginBottom="10dp"
-                            android:text="@string/notification_info"
-                            android:textColor="@color/text_color"
-                            android:textSize="12sp"
+                            android:layout_marginBottom="15dp"
+                            android:text="@string/surname"
+                            android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@+id/textViewNotification"
-                            app:layout_constraintStart_toStartOf="@+id/textViewNotification"
-                            app:layout_constraintTop_toBottomOf="@+id/textViewNotification" />
+                            app:layout_constraintEnd_toEndOf="@+id/textViewSetSurname"
+                            app:layout_constraintStart_toStartOf="@+id/textViewSetSurname"
+                            app:layout_constraintTop_toBottomOf="@+id/textViewSetSurname" />
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="25dp"
+                            android:src="@drawable/arrow_forward_icon"
+                            app:layout_constraintBottom_toBottomOf="@+id/textViewEditSurname"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textViewSetSurname" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
-
-                <Button
-                    android:id="@+id/btnLogOut"
-                    android:layout_width="146dp"
-                    android:layout_height="46dp"
-                    android:layout_marginStart="123dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="124dp"
-                    android:backgroundTint="@color/background_pink"
-                    android:onClick="@{() -> userProfileObject.signOut()}"
-                    android:text="@string/log_out"
-                    android:textColor="@color/text_color"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardViewNotification" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

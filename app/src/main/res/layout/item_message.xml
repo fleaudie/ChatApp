@@ -9,7 +9,7 @@
         android:id="@+id/txtReceiver"
         android:layout_width="35dp"
         android:layout_height="50dp"
-        android:background="@color/background"
+        android:background="@color/background_pink"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

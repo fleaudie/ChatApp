@@ -23,7 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background"
+                android:background="@color/background_pink"
                 android:orientation="horizontal">
 
                 <TextView
@@ -58,6 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            app:backgroundTint="#00FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,28 +78,30 @@
                     <EditText
                         android:id="@+id/editTextMessage"
                         android:layout_width="0dp"
-                        android:layout_height="50dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="5dp"
                         android:background="@drawable/text_bg"
-                        android:ems="10"
                         android:hint="@string/message"
                         android:inputType="text"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:textColorHint="@color/hint_color"
                         android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/button"
+                        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
+                        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="@+id/floatingActionButton" />
 
-                    <Button
-                        android:id="@+id/button"
-                        android:layout_width="50dp"
-                        android:layout_height="0dp"
-                        android:text="B"
-                        app:layout_constraintBottom_toBottomOf="@id/editTextMessage"
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/floatingActionButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        app:backgroundTint="@color/background_pink"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/editTextMessage" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/chat_icon" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>

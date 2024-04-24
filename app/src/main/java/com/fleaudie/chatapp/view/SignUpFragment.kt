@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -14,6 +15,7 @@ import com.fleaudie.chatapp.data.datasource.AuthDataSource
 import com.fleaudie.chatapp.data.repository.AuthRepository
 import com.fleaudie.chatapp.databinding.FragmentSignUpBinding
 import com.fleaudie.chatapp.viewmodel.SignUpViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
 class SignUpFragment : Fragment() {
@@ -40,8 +42,13 @@ class SignUpFragment : Fragment() {
         val surname = binding.editTextSurname.text.toString()
         val phoneNumber = "+$countryCode$number"
 
-        viewModel.sendVerificationCode(this, phoneNumber, name, surname)
-        Log.d("SignUpFragment", "Phone number: $phoneNumber")
+        if(name.isBlank() || surname.isBlank() || number.isBlank()){
+            Snackbar.make(requireView(), "Please fill in the blank fields!", Snackbar.LENGTH_SHORT).show()
+        }else{
+            viewModel.sendVerificationCode(this, phoneNumber, name, surname)
+            Log.d("SignUpFragment", "Phone number: $phoneNumber")
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

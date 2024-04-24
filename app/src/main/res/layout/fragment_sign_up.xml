@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background">
+        android:background="@color/background_pink">
 
         <TextView
             android:id="@+id/textView"
@@ -72,6 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
+            android:autofillHints=""
             android:background="@drawable/text_bg"
             android:ems="10"
             android:hint="@string/name"
@@ -82,14 +83,14 @@
             app:layout_constraintEnd_toEndOf="@+id/editTextPhone"
             app:layout_constraintStart_toStartOf="@+id/countyCodePicker"
             app:layout_constraintTop_toBottomOf="@+id/editTextPhone"
-            tools:ignore="RtlSymmetry"
-            android:autofillHints="" />
+            tools:ignore="RtlSymmetry" />
 
         <EditText
             android:id="@+id/editTextSurname"
             android:layout_width="0dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
+            android:autofillHints=""
             android:background="@drawable/text_bg"
             android:ems="10"
             android:hint="@string/surname"
@@ -100,23 +101,22 @@
             app:layout_constraintEnd_toEndOf="@+id/editTextName"
             app:layout_constraintStart_toStartOf="@+id/editTextName"
             app:layout_constraintTop_toBottomOf="@+id/editTextName"
-            tools:ignore="RtlSymmetry"
-            android:autofillHints="" />
+            tools:ignore="RtlSymmetry" />
 
         <Button
             android:id="@+id/btnSignUp"
             android:layout_width="190dp"
             android:layout_height="60dp"
             android:layout_marginTop="30dp"
-            android:backgroundTint="@color/background"
-            android:text="@string/sign_up"
+            android:backgroundTint="@color/background_pink"
             android:onClick="@{() -> fragmentSignUp.signUp()}"
+            android:text="@string/sign_up"
             android:textColor="@color/text_color"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/editTextSurname"
             app:layout_constraintStart_toStartOf="@+id/editTextSurname"
             app:layout_constraintTop_toBottomOf="@+id/editTextSurname"
-            app:strokeColor="@color/text_color"
+            app:strokeColor="@color/black"
             app:strokeWidth="2dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

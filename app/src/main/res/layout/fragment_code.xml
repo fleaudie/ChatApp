@@ -7,10 +7,11 @@
             name="fragmentCode"
             type="com.fleaudie.chatapp.view.CodeFragment" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background">
+        android:background="@color/background_pink">
 
         <TextView
             android:id="@+id/textView"
@@ -29,9 +30,9 @@
             android:layout_width="190dp"
             android:layout_height="60dp"
             android:layout_marginTop="30dp"
-            android:backgroundTint="@color/background"
-            android:text="@string/start"
+            android:backgroundTint="@color/background_pink"
             android:onClick="@{()-> fragmentCode.start()}"
+            android:text="@string/start"
             android:textColor="@color/text_color"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/editTextVerifyCode"
@@ -39,29 +40,6 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextVerifyCode"
             app:strokeColor="@color/text_color"
             app:strokeWidth="2dp" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/receive_code"
-            android:textColor="@color/text_color"
-            app:layout_constraintEnd_toEndOf="@+id/btnStart"
-            app:layout_constraintStart_toStartOf="@+id/btnStart"
-            app:layout_constraintTop_toBottomOf="@+id/btnStart" />
-
-        <TextView
-            android:id="@+id/txtResend"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/resend"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="@+id/textView2"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TextView
             android:id="@+id/textView3"

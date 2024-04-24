@@ -80,6 +80,9 @@
         <action
             android:id="@+id/action_userProfileFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_profileSettingsFragment"
+            app:destination="@id/profileSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/messageFragment"
@@ -94,5 +97,22 @@
         <action
             android:id="@+id/action_messageFragment_to_contactsFragment"
             app:destination="@id/contactsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileSettingsFragment"
+        android:name="com.fleaudie.chatapp.view.ProfileSettingsFragment"
+        android:label="ProfileSettingsFragment" >
+        <action
+            android:id="@+id/action_profileSettingsFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+        <argument
+            android:name="userName"
+            app:argType="string" />
+        <argument
+            android:name="userSurname"
+            app:argType="string" />
+        <argument
+            android:name="userUid"
+            app:argType="string" />
     </fragment>
 </navigation>
