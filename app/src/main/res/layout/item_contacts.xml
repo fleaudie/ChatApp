@@ -29,12 +29,12 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/circleImageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/empty_profile_image"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -46,6 +46,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="20dp"
                     android:text="@{itemContactObject.contactName}"
+                    android:textColor="@color/text_color"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/circleImageView"
                     app:layout_constraintTop_toTopOf="@+id/circleImageView" />
@@ -57,6 +58,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="20dp"
                     android:text="@{itemContactObject.contactNumber}"
+                    android:textColor="@color/text_color"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/circleImageView"
                     app:layout_constraintStart_toEndOf="@+id/circleImageView" />
@@ -66,8 +68,9 @@
                     android:layout_width="100dp"
                     android:layout_height="45dp"
                     android:layout_marginEnd="16dp"
-                    android:backgroundTint="@color/background_pink"
+                    android:backgroundTint="@color/button_pink"
                     android:text="Invite"
+                    android:textColor="@color/white"
                     android:textSize="12sp"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="@+id/circleImageView"

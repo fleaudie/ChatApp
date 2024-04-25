@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_white">
+        android:background="@color/background">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -25,7 +25,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background_pink"
+                android:background="@color/app_bar"
                 android:orientation="horizontal">
 
                 <TextView
@@ -78,7 +78,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="25dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/textViewAccountInfo"
+                            app:layout_constraintBottom_toBottomOf="@+id/textViewEditName"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/textViewSetName"
                             app:srcCompat="@drawable/account_icon" />
@@ -91,6 +91,7 @@
                             android:layout_marginTop="15dp"
                             android:layout_marginEnd="10dp"
                             android:text="@string/name"
+                            android:textColor="@color/text_color"
                             android:textSize="12sp"
                             app:layout_constraintEnd_toStartOf="@+id/imageView"
                             app:layout_constraintStart_toEndOf="@+id/imageViewName"
@@ -103,6 +104,7 @@
                             android:layout_marginTop="2dp"
                             android:layout_marginBottom="15dp"
                             android:text="@string/name"
+                            android:textColor="@color/text_color"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/textViewSetName"
@@ -154,9 +156,9 @@
                             android:elevation="6dp"
                             android:focusable="true"
                             android:src="@drawable/camera_icon"
-                            app:backgroundTint="@color/background_pink"
+                            app:backgroundTint="@color/button_pink"
                             app:layout_constraintBottom_toBottomOf="@+id/imgEditUserPhoto"
-                            app:layout_constraintEnd_toEndOf="@+id/imgEditUserPhoto"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+                            app:layout_constraintEnd_toEndOf="@+id/imgEditUserPhoto" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -192,6 +194,7 @@
                             android:layout_marginTop="15dp"
                             android:layout_marginEnd="10dp"
                             android:text="@string/surname"
+                            android:textColor="@color/text_color"
                             android:textSize="12sp"
                             app:layout_constraintEnd_toStartOf="@+id/imageView2"
                             app:layout_constraintStart_toEndOf="@+id/imageViewNotification"
@@ -204,6 +207,7 @@
                             android:layout_marginTop="2dp"
                             android:layout_marginBottom="15dp"
                             android:text="@string/surname"
+                            android:textColor="@color/text_color"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@+id/textViewSetSurname"

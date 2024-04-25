@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_white">
+        android:background="@color/background">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -25,7 +25,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background_pink"
+                android:background="@color/app_bar"
                 android:orientation="horizontal">
 
                 <TextView
@@ -58,8 +58,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/light_pink">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/textView4"
@@ -78,7 +77,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    app:cardBackgroundColor="@color/light_pink"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView4">
@@ -132,15 +130,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:onClick="@{()-> userProfileObject.profileSettings()}"
-                    app:cardBackgroundColor="@color/bg_white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/light_pink">
+                        android:layout_height="wrap_content">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/imgUserPhoto"
@@ -184,7 +180,6 @@
                     android:id="@+id/cardViewNotification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/light_pink"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardViewAccount">
@@ -235,14 +230,14 @@
                 <Button
                     android:id="@+id/btnLogOut"
                     android:layout_width="146dp"
-                    android:layout_height="46dp"
+                    android:layout_height="50dp"
                     android:layout_marginStart="123dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="124dp"
-                    android:backgroundTint="@color/background_pink"
+                    android:backgroundTint="@color/button_pink"
                     android:onClick="@{() -> userProfileObject.signOut()}"
                     android:text="@string/log_out"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardViewNotification" />

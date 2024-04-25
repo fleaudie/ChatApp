@@ -10,7 +10,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.MessageFragment" >
+        android:background="@drawable/message_bg"
+        android:backgroundTint="@color/message_bg"
+        android:backgroundTintMode="multiply"
+        tools:context=".view.MessageFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -23,7 +26,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background_pink"
+                android:background="@color/app_bar"
                 android:orientation="horizontal">
 
                 <TextView
@@ -43,6 +46,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcyMessages"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
@@ -58,7 +62,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:backgroundTint="#00FFFFFF"
+            app:backgroundTint="@color/powder_pink"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -87,20 +91,22 @@
                         android:paddingEnd="10dp"
                         android:textColorHint="@color/hint_color"
                         android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
-                        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
+                        app:layout_constraintBottom_toBottomOf="@+id/floatSendMessage"
+                        app:layout_constraintEnd_toStartOf="@+id/floatSendMessage"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/floatingActionButton" />
+                        app:layout_constraintTop_toTopOf="@+id/floatSendMessage" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/floatingActionButton"
+                        android:id="@+id/floatSendMessage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        app:backgroundTint="@color/background_pink"
+                        android:focusable="true"
+                        app:backgroundTint="@color/button_pink"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+
                         app:srcCompat="@drawable/chat_icon" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
