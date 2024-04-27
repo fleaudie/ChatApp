@@ -10,8 +10,10 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.fleaudie.chatapp.R
 import com.fleaudie.chatapp.adapters.ContactsAdapter
+import com.fleaudie.chatapp.data.model.Contact
 import com.fleaudie.chatapp.databinding.FragmentContactsBinding
 import com.fleaudie.chatapp.helpers.ContactHelper
 import com.fleaudie.chatapp.viewmodel.ContactViewModel
@@ -35,14 +37,48 @@ class ContactsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         contactViewModel = ViewModelProvider(this)[ContactViewModel::class.java]
         if (contactViewModel.checkPermissions(requireContext())) {
-            val contactsHelper = ContactHelper(requireContext().contentResolver, )
+            val contactsHelper = ContactHelper(requireContext().contentResolver)
             val contactsList = contactsHelper.getContactsFromDevice()
             contactsHelper.saveContactsToFirestore()
 
-            val contactAdapter = ContactsAdapter(contactsList, requireContext())
-            binding.adapterContact = contactAdapter
+            val registeredUsers = mutableListOf<Contact>()
+            val unregisteredUsers = mutableListOf<Contact>()
+
+            for (contact in contactsList) {
+                val formattedPhoneNumber = contact.contactNumber.replace("\\s".toRegex(), "")
+                contactsHelper.checkPhoneNumber(formattedPhoneNumber, onSuccess = { _ ->
+                    registeredUsers.add(contact)
+                    checkListCompletion(registeredUsers, unregisteredUsers, contactsList)
+                }, onFail = {
+                    unregisteredUsers.add(contact)
+                    checkListCompletion(registeredUsers, unregisteredUsers, contactsList)
+                })
+            }
         } else {
             contactViewModel.requestPermissions(this)
+        }
+    }
+
+    private fun checkListCompletion(
+        registeredUsers: MutableList<Contact>,
+        unregisteredUsers: MutableList<Contact>,
+        contactsList: List<Contact>
+    ) {
+        if (registeredUsers.size + unregisteredUsers.size == contactsList.size) {
+            registeredUsers.sortByDescending { it.contactName }
+            unregisteredUsers.sortByDescending { it.contactName }
+
+            val mergedList = mutableListOf<Contact>().apply {
+                addAll(unregisteredUsers)
+                addAll(registeredUsers)
+            }
+
+            val contactAdapter = ContactsAdapter(mergedList, requireContext())
+            binding.adapterContact = contactAdapter
+
+            val layoutManager = LinearLayoutManager(requireContext())
+            layoutManager.reverseLayout = true
+            binding.rcyContacts.layoutManager = layoutManager
         }
     }
 
@@ -64,7 +100,7 @@ class ContactsFragment : Fragment() {
             } else {
                 Toast.makeText(
                     requireContext(),
-                    "Kişilere erişim izni verilmedi!",
+                    "Permission not granted for contacts!",
                     Toast.LENGTH_SHORT
                 ).show()
             }

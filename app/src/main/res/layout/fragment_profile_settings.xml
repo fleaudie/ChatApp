@@ -155,10 +155,12 @@
                             android:clickable="true"
                             android:elevation="6dp"
                             android:focusable="true"
+                            android:onClick="@{()-> profileSettings.uploadProfilePhoto()}"
                             android:src="@drawable/camera_icon"
                             app:backgroundTint="@color/button_pink"
                             app:layout_constraintBottom_toBottomOf="@+id/imgEditUserPhoto"
-                            app:layout_constraintEnd_toEndOf="@+id/imgEditUserPhoto" />
+                            app:layout_constraintEnd_toEndOf="@+id/imgEditUserPhoto"
+                            android:contentDescription="@string/save" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

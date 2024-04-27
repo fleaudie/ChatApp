@@ -12,7 +12,6 @@ import com.fleaudie.chatapp.data.model.Message
 import com.fleaudie.chatapp.databinding.ItemMessageBinding
 import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -29,10 +28,10 @@ class MessageAdapter(private var messages: List<Message>, private var mContext: 
         val message = messages[position]
         val binding = holder.view
 
-        // Mesajın gönderim tarihini al
+
         val messageDate = getFormattedDate(message.timestamp)
 
-        // Eğer mevcut mesajın tarihi önceki mesajın tarihine eşitse, tarihi gizle
+
         if (position > 0) {
             val previousMessage = messages[position - 1]
             val previousMessageDate = getFormattedDate(previousMessage.timestamp)
@@ -47,7 +46,7 @@ class MessageAdapter(private var messages: List<Message>, private var mContext: 
             binding.txtSeperator.text = messageDate
         }
 
-        // Mesajı gönderen kişinin ID'si mevcut kullanıcı ID'si ile aynı mı diye kontrol et
+
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
         if (message.senderId == currentUserId) {
             binding.txtSender.text = message.message
@@ -59,7 +58,7 @@ class MessageAdapter(private var messages: List<Message>, private var mContext: 
             binding.consReceive.visibility = View.VISIBLE
         }
 
-        // Mesaj gönderim zamanını göster
+
         val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
         val time = timeFormat.format(message.timestamp)
         binding.txtSendTime.text = time

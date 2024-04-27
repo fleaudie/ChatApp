@@ -9,17 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.fleaudie.chatapp.R
-import com.fleaudie.chatapp.data.datasource.AuthDataSource
 import com.fleaudie.chatapp.data.datasource.UserProfileDataSource
-import com.fleaudie.chatapp.data.repository.AuthRepository
 import com.fleaudie.chatapp.data.repository.UserProfileRepository
 import com.fleaudie.chatapp.databinding.FragmentUserProfileBinding
-import com.fleaudie.chatapp.viewmodel.SignUpViewModel
 import com.fleaudie.chatapp.viewmodel.UserProfileViewModel
 
 class UserProfileFragment : Fragment() {
@@ -38,6 +34,7 @@ class UserProfileFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
@@ -46,6 +43,8 @@ class UserProfileFragment : Fragment() {
             binding.txtUserName.text = "$name $surname"
             binding.txtUserNumber.text = "$phone"
             Log.d("UserProfile", "$uid")
+
+            loadProfileImage()
         }
     }
 
@@ -56,7 +55,7 @@ class UserProfileFragment : Fragment() {
     }
 
     fun profileSettings() {
-        viewModel.getUserData { name, surname, phone, uid ->
+        viewModel.getUserData { name, surname, _, uid ->
             if (name != null && surname != null && uid != null) {
                 val action = UserProfileFragmentDirections.actionUserProfileFragmentToProfileSettingsFragment(
                     name, surname, uid
@@ -64,6 +63,18 @@ class UserProfileFragment : Fragment() {
                 navController.navigate(action)
             } else {
                 Log.e("UserProfileFragment", "Error: Name, surname or uid is null")
+            }
+        }
+    }
+
+    private fun loadProfileImage() {
+        viewModel.getProfileImageUrl { imageUrl ->
+            if (!imageUrl.isNullOrEmpty()) {
+                Glide.with(requireContext())
+                    .load(imageUrl)
+                    .into(binding.imgUserPhoto)
+            } else {
+                binding.imgUserPhoto.setImageResource(R.drawable.empty_profile_image)
             }
         }
     }

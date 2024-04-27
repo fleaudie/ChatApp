@@ -14,4 +14,8 @@ class UserProfileRepository(private val dataSource: UserProfileDataSource) {
     fun updateUserName(newName: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit){
         dataSource.updateUserName(newName, onSuccess, onFailure)
     }
+
+    fun getProfileImageUrl(callback: (String?) -> Unit){
+        dataSource.getProfileImageUrl(callback)
+    }
 }

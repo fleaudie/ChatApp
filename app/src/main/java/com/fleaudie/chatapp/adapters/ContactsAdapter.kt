@@ -8,19 +8,28 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.fleaudie.chatapp.R
 import com.fleaudie.chatapp.databinding.ItemContactsBinding
 import com.fleaudie.chatapp.data.model.Contact
 import com.fleaudie.chatapp.helpers.ContactHelper
 import com.fleaudie.chatapp.view.ContactsFragmentDirections
 
-class ContactsAdapter(private val contacts: List<Contact>, private var mContext: Context) : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
+class ContactsAdapter(private val contacts: List<Contact>, private var mContext: Context) :
+    RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
 
     private lateinit var contactHelper: ContactHelper
-    inner class ContactViewHolder(var view: ItemContactsBinding) : RecyclerView.ViewHolder(view.root)
+
+    inner class ContactViewHolder(var view: ItemContactsBinding) :
+        RecyclerView.ViewHolder(view.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-        val binding : ItemContactsBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.item_contacts, parent, false)
+        val binding: ItemContactsBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(mContext),
+            R.layout.item_contacts,
+            parent,
+            false
+        )
         return ContactViewHolder(binding)
     }
 
@@ -29,21 +38,41 @@ class ContactsAdapter(private val contacts: List<Contact>, private var mContext:
         val t = holder.view
         t.itemContactObject = contact
 
-            contactHelper = ContactHelper(mContext.contentResolver)
-            val formattedPhoneNumber = contact.contactNumber.replace("\\s".toRegex(), "")
-            contactHelper.checkPhoneNumber(formattedPhoneNumber, onSuccess = {uid ->
-                val navController = findNavController(holder.itemView)
-                t.cardContacts.setOnClickListener {
-                    uid?.let {
-                        val action = ContactsFragmentDirections.actionContactsFragmentToMessageFragment(uid, contact.contactName)
-                        Log.d("TAG", "User exist, UID: $it")
-                        navController.navigate(action)
-                    }
+        contactHelper = ContactHelper(mContext.contentResolver)
+
+        val formattedPhoneNumber = contact.contactNumber.replace("\\s".toRegex(), "")
+        contactHelper.checkPhoneNumber(formattedPhoneNumber, onSuccess = { uid ->
+            val navController = findNavController(holder.itemView)
+            t.cardContacts.setOnClickListener {
+                uid?.let {
+                    val action = ContactsFragmentDirections.actionContactsFragmentToMessageFragment(
+                        uid,
+                        contact.contactName
+                    )
+                    Log.d("TAG", "User exist, UID: $it")
+                    navController.navigate(action)
                 }
-                t.btnInvite.visibility = View.GONE
-            }, onFail = {
-                t.btnInvite.visibility = View.VISIBLE
-            })
+            }
+            t.cardContacts.visibility = View.VISIBLE
+            t.btnInvite.visibility = View.GONE
+        }, onFail = {
+            t.cardContacts.visibility = View.VISIBLE
+            t.btnInvite.visibility = View.VISIBLE
+        })
+
+        contactHelper.getProfileImageUrls(
+            formattedPhoneNumber,
+            onSuccess = { profileImageUrls ->
+                val profileImageUrl = profileImageUrls[formattedPhoneNumber]
+                profileImageUrl?.let {
+                    Glide.with(mContext)
+                        .load(it)
+                        .into(t.imgContactProfile)
+                }
+            }
+        ) { exception ->
+            Log.e("ContactsAdapter", "Error getting profile image URL: ${exception.message}")
+        }
     }
 
     override fun getItemCount(): Int {

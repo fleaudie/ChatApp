@@ -12,4 +12,8 @@ class UserProfileViewModel(private var repository: UserProfileRepository) : View
     fun getUserData(callback: (String?, String?, String?, String?) -> Unit) {
         repository.getUserData(callback)
     }
+
+    fun getProfileImageUrl(callback: (String?) -> Unit){
+        repository.getProfileImageUrl(callback)
+    }
 }

@@ -16,9 +16,9 @@ class UserProfileDataSource {
         val imageRef = storageRef.child("profile_images/$imageName")
 
         imageRef.putBytes(imageBytes)
-            .addOnSuccessListener { taskSnapshot ->
+            .addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener { uri ->
-                    onSuccess(uri.toString())
+                    updateUserProfileImageUrl(uri.toString(), onSuccess, onFailure)
                 }.addOnFailureListener {
                     onFailure(it)
                 }
@@ -28,7 +28,53 @@ class UserProfileDataSource {
             }
     }
 
-    fun getCurrentUserUid(): String? {
+    private fun updateUserProfileImageUrl(imageUrl: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+        val currentUserUid = getCurrentUserUid()
+
+        if (currentUserUid != null) {
+            val userRef = db.collection("users").document(currentUserUid)
+
+            val updates = hashMapOf<String, Any>(
+                "profileImageUrl" to imageUrl,
+            )
+
+            userRef.update(updates)
+                .addOnSuccessListener {
+                    onSuccess(imageUrl)
+                }
+                .addOnFailureListener { exception ->
+                    onFailure(exception)
+                }
+        } else {
+            onFailure(Exception("Current user UID is null"))
+        }
+    }
+
+    fun getProfileImageUrl(callback: (String?) -> Unit) {
+        val currentUserUid = getCurrentUserUid()
+
+        if (currentUserUid != null) {
+            val userRef = db.collection("users").document(currentUserUid)
+
+            userRef.get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        val profileImageUrl = documentSnapshot.getString("profileImageUrl")
+                        callback(profileImageUrl)
+                    } else {
+                        callback(null)
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("UserProfileDataSource", "Error getting profile image URL: $exception")
+                    callback(null)
+                }
+        } else {
+            callback(null)
+        }
+    }
+
+    private fun getCurrentUserUid(): String? {
         return auth.currentUser?.uid
     }
 

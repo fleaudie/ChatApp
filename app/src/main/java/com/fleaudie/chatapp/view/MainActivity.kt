@@ -34,5 +34,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
         NavigationUI.setupWithNavController(binding.bottomNavigationView,  navHostFragment.navController)
+
+
     }
+
 }

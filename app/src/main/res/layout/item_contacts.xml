@@ -28,7 +28,7 @@
                 android:layout_height="match_parent">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/circleImageView"
+                    android:id="@+id/imgContactProfile"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginStart="5dp"
@@ -48,8 +48,8 @@
                     android:text="@{itemContactObject.contactName}"
                     android:textColor="@color/text_color"
                     android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@+id/circleImageView"
-                    app:layout_constraintTop_toTopOf="@+id/circleImageView" />
+                    app:layout_constraintStart_toEndOf="@+id/imgContactProfile"
+                    app:layout_constraintTop_toTopOf="@+id/imgContactProfile" />
 
                 <TextView
                     android:id="@+id/txtContactNumber"
@@ -60,8 +60,8 @@
                     android:text="@{itemContactObject.contactNumber}"
                     android:textColor="@color/text_color"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/circleImageView"
-                    app:layout_constraintStart_toEndOf="@+id/circleImageView" />
+                    app:layout_constraintBottom_toBottomOf="@+id/imgContactProfile"
+                    app:layout_constraintStart_toEndOf="@+id/imgContactProfile" />
 
                 <Button
                     android:id="@+id/btnInvite"
@@ -73,9 +73,9 @@
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="@+id/circleImageView"
+                    app:layout_constraintBottom_toBottomOf="@+id/imgContactProfile"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/circleImageView" />
+                    app:layout_constraintTop_toTopOf="@+id/imgContactProfile" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

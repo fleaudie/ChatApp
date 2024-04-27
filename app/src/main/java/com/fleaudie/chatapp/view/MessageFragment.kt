@@ -8,17 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fleaudie.chatapp.R
 import com.fleaudie.chatapp.adapters.MessageAdapter
-import com.fleaudie.chatapp.data.datasource.AuthDataSource
 import com.fleaudie.chatapp.data.datasource.ChatDataSource
-import com.fleaudie.chatapp.data.repository.AuthRepository
 import com.fleaudie.chatapp.data.repository.ChatRepository
 import com.fleaudie.chatapp.databinding.FragmentMessageBinding
-import com.fleaudie.chatapp.viewmodel.CodeViewModel
 import com.fleaudie.chatapp.viewmodel.MessageViewModel
 import com.google.firebase.auth.FirebaseAuth
 
@@ -28,6 +24,7 @@ class MessageFragment : Fragment() {
     private lateinit var adapter: MessageAdapter
     private lateinit var viewModel: MessageViewModel
     private lateinit var receiverId: String
+    private lateinit var text: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,13 +48,12 @@ class MessageFragment : Fragment() {
         binding.rcyMessages.adapter = adapter
 
         binding.rcyMessages.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.messageList.observe(viewLifecycleOwner, Observer {
+        viewModel.messageList.observe(viewLifecycleOwner) {
             adapter.updateMessages(it)
             binding.rcyMessages.scrollToPosition(it.size - 1)
-        })
-
+        }
         binding.floatSendMessage.setOnClickListener {
-            val text = binding.editTextMessage.text.toString()
+            text = binding.editTextMessage.text.toString()
             if (text.isNotEmpty()){
                 if (currentUserId != null) {
                     viewModel.sendMessage(currentUserId, receiverId, text,
@@ -69,8 +65,6 @@ class MessageFragment : Fragment() {
                 }
             }
         }
-
-
 
         if (currentUserId != null) {
             viewModel.fetchMessages(currentUserId, receiverId,
@@ -86,10 +80,11 @@ class MessageFragment : Fragment() {
             )
         }
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val repository = ChatRepository(ChatDataSource())
         viewModel = MessageViewModel(repository)
     }
+
+
 }

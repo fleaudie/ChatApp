@@ -93,7 +93,7 @@ class ContactHelper(private val contentResolver: ContentResolver) {
                     phones?.use { phoneCursor ->
                         if (phoneCursor.moveToFirst()) {
                             val phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                            contactsList.add(Contact(name, phoneNumber))
+                            contactsList.add(Contact(name, phoneNumber, ""))
                         }
                     }
                 } while (it.moveToNext())
@@ -101,6 +101,30 @@ class ContactHelper(private val contentResolver: ContentResolver) {
         }
 
         return contactsList
+    }
+
+    fun getProfileImageUrls(
+        phoneNumber: String,
+        onSuccess: (Map<String, String>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val profileImageUrls = mutableMapOf<String, String>()
+        db.collection("users")
+            .whereEqualTo("phoneNumber", phoneNumber)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val number = document.getString("phoneNumber") ?: continue
+                    val profileImageUrl = document.getString("profileImageUrl")
+                    if (!profileImageUrl.isNullOrEmpty()) {
+                        profileImageUrls[number] = profileImageUrl
+                    }
+                }
+                onSuccess(profileImageUrls)
+            }
+            .addOnFailureListener { exception ->
+                onFailure(exception)
+            }
     }
 
     companion object {

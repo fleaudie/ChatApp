@@ -16,14 +16,14 @@ class ChatDataSource {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val userUID = currentUser?.uid
         if (userUID != null) {
-            val message = Message(senderId, receiverId, text, Date()) // Timestamp olarak Date türünde bir veri kullanıyoruz
+            val message = Message(senderId, receiverId, text, Date())
             val senderChatRef = getUserChatReference(senderId, receiverId)
             val receiverChatRef = getUserChatReference(receiverId, senderId)
 
             senderChatRef.collection("messages")
                 .add(message)
-                .addOnSuccessListener { documentReference ->
-                    Log.d("ChatDataSource", "sendMessage: Message sent successfully.")
+                .addOnSuccessListener {
+                    Log.d("ChatDataSource", "sendMessage: Message sent to $receiverId")
                     onSuccess()
                 }
                 .addOnFailureListener { e ->

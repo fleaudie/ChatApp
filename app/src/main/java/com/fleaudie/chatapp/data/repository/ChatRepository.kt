@@ -11,4 +11,5 @@ class ChatRepository(private val dataSource: ChatDataSource) {
     fun fetchMessages(senderId: String, receiverId: String, onSuccess: (List<Message>) -> Unit, onFailure: (String) -> Unit){
         dataSource.fetchMessages(senderId, receiverId, onSuccess, onFailure)
     }
+
 }

@@ -54,23 +54,4 @@ class AuthDataSource(private val context: Context) {
             }
     }
 
-    fun checkPhoneNumberInDatabase(phoneNumber: String, onSuccess: () -> Unit, onFail: () -> Unit) {
-
-        val usersRef = db.collection("users")
-        usersRef.whereEqualTo("phoneNumber", phoneNumber)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (documents.isEmpty) {
-                    onSuccess()
-                } else {
-                    onFail()
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.e("AuthDataSource", "Check number error: $exception")
-            }
-    }
-
-
-
 }

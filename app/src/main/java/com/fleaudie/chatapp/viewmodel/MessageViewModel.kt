@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.fleaudie.chatapp.data.model.Message
 import com.fleaudie.chatapp.data.repository.ChatRepository
 
-class MessageViewModel(private val repository: ChatRepository): ViewModel() {
+class MessageViewModel(private val repository: ChatRepository): ViewModel(){
     private val _messageList = MutableLiveData<List<Message>>()
     val messageList: LiveData<List<Message>> = _messageList
 
@@ -17,8 +17,13 @@ class MessageViewModel(private val repository: ChatRepository): ViewModel() {
 
     fun fetchMessages(senderId: String, receiverId: String, onSuccess: (List<Message>) -> Unit, onFailure: (String) -> Unit){
         repository.fetchMessages(senderId, receiverId, {
-            _messageList.postValue(it) // LiveData'nın güncellenmesi
+            _messageList.postValue(it)
+            Log.d("MessageViewModel", "Fetched messages: $it")
             onSuccess(it)
-        }, onFailure)
+        }, { error ->
+            Log.e("MessageViewModel", "Error fetching messages: $error")
+            onFailure(error)
+        })
     }
+
 }
