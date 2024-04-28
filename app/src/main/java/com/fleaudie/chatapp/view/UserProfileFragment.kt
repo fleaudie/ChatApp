@@ -13,21 +13,27 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.fleaudie.chatapp.R
+import com.fleaudie.chatapp.data.datasource.AuthDataSource
 import com.fleaudie.chatapp.data.datasource.UserProfileDataSource
+import com.fleaudie.chatapp.data.repository.AuthRepository
 import com.fleaudie.chatapp.data.repository.UserProfileRepository
 import com.fleaudie.chatapp.databinding.FragmentUserProfileBinding
+import com.fleaudie.chatapp.helpers.PopupHelper
 import com.fleaudie.chatapp.viewmodel.UserProfileViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class UserProfileFragment : Fragment() {
     private lateinit var binding: FragmentUserProfileBinding
     private lateinit var viewModel: UserProfileViewModel
     private lateinit var navController: NavController
+    private lateinit var popupHelper: PopupHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false)
         binding.userProfileObject = this
         val anim = AnimationUtils.loadAnimation(context, R.anim.fade_in)
         binding.root.startAnimation(anim)
@@ -38,6 +44,7 @@ class UserProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+        popupHelper = PopupHelper(requireContext())
 
         viewModel.getUserData { name, surname, phone, uid ->
             binding.txtUserName.text = "$name $surname"
@@ -51,15 +58,17 @@ class UserProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val repository = UserProfileRepository(UserProfileDataSource())
-        viewModel = UserProfileViewModel(repository)
+        val authRepository = AuthRepository(AuthDataSource(requireContext()))
+        viewModel = UserProfileViewModel(repository, authRepository)
     }
 
     fun profileSettings() {
         viewModel.getUserData { name, surname, _, uid ->
             if (name != null && surname != null && uid != null) {
-                val action = UserProfileFragmentDirections.actionUserProfileFragmentToProfileSettingsFragment(
-                    name, surname, uid
-                )
+                val action =
+                    UserProfileFragmentDirections.actionUserProfileFragmentToProfileSettingsFragment(
+                        name, surname, uid
+                    )
                 navController.navigate(action)
             } else {
                 Log.e("UserProfileFragment", "Error: Name, surname or uid is null")
@@ -79,8 +88,23 @@ class UserProfileFragment : Fragment() {
         }
     }
 
-    fun signOut(){
+    fun changeNumber() {
+        popupHelper.showChangeNumberPopup { newNumber ->
+            viewModel.updateUserNumber(newNumber, onSuccess = {
+                Snackbar.make(requireView(), "Number changed successfully!", Snackbar.LENGTH_SHORT).show()
+                viewModel.logOut()
+                navController.navigate(R.id.action_userProfileFragment_to_signUpFragment)
+            }, onFailure = {
+                Snackbar.make(requireView(), "Error!", Snackbar.LENGTH_SHORT).show()
+            })
+        }
+    }
+
+    fun signOut() {
         viewModel.logOut()
-        view?.let { Navigation.findNavController(it).navigate(R.id.action_userProfileFragment_to_signUpFragment) }
+        view?.let {
+            Navigation.findNavController(it)
+                .navigate(R.id.action_userProfileFragment_to_signUpFragment)
+        }
     }
 }

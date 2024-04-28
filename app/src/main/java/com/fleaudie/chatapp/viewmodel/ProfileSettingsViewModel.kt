@@ -14,4 +14,8 @@ class ProfileSettingsViewModel(private var repository: UserProfileRepository) {
     fun getProfileImageUrl(callback: (String?) -> Unit){
         repository.getProfileImageUrl(callback)
     }
+
+    fun updateUserSurname(newSurname: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit){
+        repository.updateUserSurname(newSurname, onSuccess, onFailure)
+    }
 }

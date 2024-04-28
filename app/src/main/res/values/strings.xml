@@ -26,8 +26,10 @@
     <string name="notification">Notification</string>
     <string name="enter_name">Please enter your name</string>
     <string name="enter_surname">Please enter your surname</string>
+    <string name="enter_number">Please enter your new phone number</string>
     <string name="notification_info">Message sounds</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="next">Next</string>
     <string name="upload_photo">Upload Photo</string>
 </resources>

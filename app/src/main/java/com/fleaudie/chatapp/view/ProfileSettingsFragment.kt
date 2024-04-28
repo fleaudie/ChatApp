@@ -4,14 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.widget.LinearLayout
-import android.widget.PopupWindow
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -19,15 +15,15 @@ import com.fleaudie.chatapp.R
 import com.fleaudie.chatapp.data.datasource.UserProfileDataSource
 import com.fleaudie.chatapp.data.repository.UserProfileRepository
 import com.fleaudie.chatapp.databinding.FragmentProfileSettingsBinding
-import com.fleaudie.chatapp.databinding.PopupEditNameBinding
+import com.fleaudie.chatapp.helpers.PopupHelper
 import com.fleaudie.chatapp.viewmodel.ProfileSettingsViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class ProfileSettingsFragment : Fragment() {
     private lateinit var binding: FragmentProfileSettingsBinding
-    private var popupWindow: PopupWindow? = null
     private lateinit var viewModel: ProfileSettingsViewModel
     private val PICK_IMAGE_REQUEST = 1
+    private lateinit var popupHelper: PopupHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +39,8 @@ class ProfileSettingsFragment : Fragment() {
         val args: ProfileSettingsFragmentArgs by navArgs()
         binding.textViewEditName.text = args.userName
         binding.textViewEditSurname.text = args.userSurname
+
+        popupHelper = PopupHelper(requireContext())
 
         loadProfileImage()
     }
@@ -73,37 +71,30 @@ class ProfileSettingsFragment : Fragment() {
         }
     }
 
-    fun editName(){
-        showPopup()
+    fun editName() {
+        popupHelper.showEditNamePopup(binding.textViewEditName.text.toString()) { newName ->
+            binding.textViewEditName.text = newName
+
+            viewModel.updateUserName(newName,
+                onSuccess = {
+                    view?.let { it1 -> Snackbar.make(it1, "Name changed successfully!", Snackbar.LENGTH_SHORT).show() }
+                }, onFailure = {
+                    view?.let { it1 -> Snackbar.make(it1, "Error changing name!", Snackbar.LENGTH_SHORT).show() }
+                })
+        }
     }
 
-    private fun showPopup() {
-        val inflater = LayoutInflater.from(context)
-        val binding = PopupEditNameBinding.inflate(inflater, null, false)
-        val view = binding.root
+    fun editSurname(){
+        popupHelper.showEditSurnamePopup(binding.textViewEditSurname.text.toString()) { newSurname ->
+            binding.textViewEditSurname.text = newSurname
 
-        popupWindow = PopupWindow(
-            view,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            true
-        )
-        popupWindow?.showAtLocation(view, Gravity.BOTTOM, 0, 0)
-
-        val upwardSlideAnimation = AnimationUtils.loadAnimation(context, R.anim.upward_slide)
-        view.startAnimation(upwardSlideAnimation)
-
-        binding.btnSaveName.setOnClickListener {
-            val name = binding.editName.text.toString()
-            viewModel.updateUserName(name,
+            viewModel.updateUserSurname(newSurname,
                 onSuccess = {
-                    Snackbar.make(it, "Name changed successfully!", Snackbar.LENGTH_SHORT).show()
-                    popupWindow!!.dismiss()
-            }, onFailure = {
-                    Snackbar.make(view, "Error changing name!", Snackbar.LENGTH_SHORT).show()
-            })
+                    view?.let { it1 -> Snackbar.make(it1, "Surname changed successfully!", Snackbar.LENGTH_SHORT).show() }
+                }, onFailure = {
+                    view?.let { it1 -> Snackbar.make(it1, "Error changing name!", Snackbar.LENGTH_SHORT).show() }
+                })
         }
-
     }
 
     private fun loadProfileImage() {

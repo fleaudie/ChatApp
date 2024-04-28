@@ -47,7 +47,8 @@ class ContactsAdapter(private val contacts: List<Contact>, private var mContext:
                 uid?.let {
                     val action = ContactsFragmentDirections.actionContactsFragmentToMessageFragment(
                         uid,
-                        contact.contactName
+                        contact.contactName,
+                        contact.contactNumber
                     )
                     Log.d("TAG", "User exist, UID: $it")
                     navController.navigate(action)

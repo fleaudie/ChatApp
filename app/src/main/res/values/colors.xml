@@ -9,6 +9,7 @@
     <color name="app_bar">#ff9d9d</color>
     <color name="light_pink">#ffe2e2</color>
     <color name="powder_pink">#FFC9C9</color>
+    <color name="powder_pink_trans">#E6FFC9C9</color>
     <color name="button_pink">#ff8181</color>
     <color name="message_bg">#37FF7979</color>
     <color name="msg_sender">#FFECEC</color>

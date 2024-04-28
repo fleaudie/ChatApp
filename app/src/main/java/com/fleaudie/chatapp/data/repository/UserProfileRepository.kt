@@ -18,4 +18,12 @@ class UserProfileRepository(private val dataSource: UserProfileDataSource) {
     fun getProfileImageUrl(callback: (String?) -> Unit){
         dataSource.getProfileImageUrl(callback)
     }
+
+    fun updateUserSurname(newSurname: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit){
+        dataSource.updateUserSurname(newSurname, onSuccess, onFailure)
+    }
+
+    fun updateUserNumber(newNumber: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit){
+        dataSource.updateUserNumber(newNumber, onSuccess, onFailure)
+    }
 }

@@ -60,4 +60,28 @@ class ChatDataSource {
             }
     }
 
+    fun getProfileImageUrls(
+        phoneNumber: String,
+        onSuccess: (Map<String, String>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val profileImageUrls = mutableMapOf<String, String>()
+        firestore.collection("users")
+            .whereEqualTo("phoneNumber", phoneNumber)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val number = document.getString("phoneNumber") ?: continue
+                    val profileImageUrl = document.getString("profileImageUrl")
+                    if (!profileImageUrl.isNullOrEmpty()) {
+                        profileImageUrls[number] = profileImageUrl
+                    }
+                }
+                onSuccess(profileImageUrls)
+            }
+            .addOnFailureListener { exception ->
+                onFailure(exception)
+            }
+    }
+
 }

@@ -17,14 +17,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:text="@string/enter_name"
+            android:text="@string/enter_surname"
             android:textColor="@color/text_color"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editName"
+            android:id="@+id/editSurname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -32,7 +32,7 @@
             android:layout_marginEnd="20dp"
             android:ems="10"
             android:inputType="text"
-            android:text="@string/name"
+            android:text="@string/surname"
             android:textColor="@color/text_color"
             android:textColorHint="@color/hint_color"
             android:textSize="14sp"
@@ -41,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <Button
-            android:id="@+id/btnSaveName"
+            android:id="@+id/btnSaveSurname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -50,8 +50,8 @@
             android:text="@string/save"
             android:textColor="@color/system_bar"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/editName"
-            app:layout_constraintTop_toBottomOf="@+id/editName" />
+            app:layout_constraintEnd_toEndOf="@+id/editSurname"
+            app:layout_constraintTop_toBottomOf="@+id/editSurname" />
 
         <Button
             android:id="@+id/btnCancel"
@@ -60,9 +60,9 @@
             android:backgroundTint="#00FFFFFF"
             android:text="@string/cancel"
             android:textColor="@color/system_bar"
-            app:layout_constraintBottom_toBottomOf="@+id/btnSaveName"
-            app:layout_constraintEnd_toStartOf="@+id/btnSaveName"
-            app:layout_constraintTop_toTopOf="@+id/btnSaveName" />
+            app:layout_constraintBottom_toBottomOf="@+id/btnSaveSurname"
+            app:layout_constraintEnd_toStartOf="@+id/btnSaveSurname"
+            app:layout_constraintTop_toTopOf="@+id/btnSaveSurname" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

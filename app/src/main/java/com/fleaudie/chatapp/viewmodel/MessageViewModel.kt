@@ -26,4 +26,12 @@ class MessageViewModel(private val repository: ChatRepository): ViewModel(){
         })
     }
 
+    fun getProfileImageUrls(
+        phoneNumber: String,
+        onSuccess: (Map<String, String>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        repository.getProfileImageUrls(phoneNumber, onSuccess, onFailure)
+    }
+
 }

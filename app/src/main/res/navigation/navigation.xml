@@ -112,6 +112,9 @@
         <action
             android:id="@+id/action_messageFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+        <argument
+            android:name="number"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/profileSettingsFragment"

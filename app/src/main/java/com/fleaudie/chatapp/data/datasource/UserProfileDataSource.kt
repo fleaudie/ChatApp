@@ -129,4 +129,48 @@ class UserProfileDataSource {
             onFailure(Exception("Current user UID is null"))
         }
     }
+
+    fun updateUserSurname(newSurname: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val currentUserUid = getCurrentUserUid()
+
+        if (currentUserUid != null) {
+            val userRef = db.collection("users").document(currentUserUid)
+
+            val updates = hashMapOf<String, Any>(
+                "surname" to newSurname,
+            )
+
+            userRef.update(updates)
+                .addOnSuccessListener {
+                    onSuccess()
+                }
+                .addOnFailureListener { exception ->
+                    onFailure(exception)
+                }
+        } else {
+            onFailure(Exception("Current user UID is null"))
+        }
+    }
+
+    fun updateUserNumber(newNumber: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val currentUserUid = getCurrentUserUid()
+
+        if (currentUserUid != null) {
+            val userRef = db.collection("users").document(currentUserUid)
+
+            val updates = hashMapOf<String, Any>(
+                "phoneNumber" to newNumber,
+            )
+
+            userRef.update(updates)
+                .addOnSuccessListener {
+                    onSuccess()
+                }
+                .addOnFailureListener { exception ->
+                    onFailure(exception)
+                }
+        } else {
+            onFailure(Exception("Current user UID is null"))
+        }
+    }
 }

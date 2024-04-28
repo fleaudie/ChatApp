@@ -16,4 +16,8 @@ class UserProfileViewModel(private var repository: UserProfileRepository) : View
     fun getProfileImageUrl(callback: (String?) -> Unit){
         repository.getProfileImageUrl(callback)
     }
+
+    fun updateUserNumber(newNumber: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit){
+        repository.updateUserNumber(newNumber, onSuccess, onFailure)
+    }
 }

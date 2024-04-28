@@ -12,4 +12,11 @@ class ChatRepository(private val dataSource: ChatDataSource) {
         dataSource.fetchMessages(senderId, receiverId, onSuccess, onFailure)
     }
 
+    fun getProfileImageUrls(
+        phoneNumber: String,
+        onSuccess: (Map<String, String>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ){
+        dataSource.getProfileImageUrls(phoneNumber, onSuccess, onFailure)
+    }
 }

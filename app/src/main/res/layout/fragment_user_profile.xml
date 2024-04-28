@@ -79,7 +79,8 @@
                     android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4">
+                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    android:onClick="@{()-> userProfileObject.changeNumber()}">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -176,71 +177,20 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewNotification"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardViewAccount">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/imageViewNotification"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginStart="25dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/textViewNotificationInfo"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/textViewNotification"
-                            app:srcCompat="@drawable/notification_icon" />
-
-                        <TextView
-                            android:id="@+id/textViewNotification"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="25dp"
-                            android:text="@string/notification"
-                            android:textColor="@color/text_color"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/imageViewNotification"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/textViewNotificationInfo"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="10dp"
-                            android:text="@string/notification_info"
-                            android:textColor="@color/text_color"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@+id/textViewNotification"
-                            app:layout_constraintStart_toStartOf="@+id/textViewNotification"
-                            app:layout_constraintTop_toBottomOf="@+id/textViewNotification" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-
                 <Button
                     android:id="@+id/btnLogOut"
-                    android:layout_width="146dp"
+                    android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:layout_marginStart="123dp"
+                    android:layout_marginStart="120dp"
                     android:layout_marginTop="30dp"
-                    android:layout_marginEnd="124dp"
+                    android:layout_marginEnd="120dp"
                     android:backgroundTint="@color/button_pink"
                     android:onClick="@{() -> userProfileObject.signOut()}"
                     android:text="@string/log_out"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardViewNotification" />
+                    app:layout_constraintTop_toBottomOf="@+id/cardViewAccount" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
