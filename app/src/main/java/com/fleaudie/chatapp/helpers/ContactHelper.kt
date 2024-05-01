@@ -7,8 +7,9 @@ import android.util.Log
 import com.fleaudie.chatapp.data.model.Contact
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import javax.inject.Inject
 
-class ContactHelper(private val contentResolver: ContentResolver) {
+class ContactHelper @Inject constructor(private val contentResolver: ContentResolver) {
     private val firestore = FirebaseFirestore.getInstance()
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val db = FirebaseFirestore.getInstance()

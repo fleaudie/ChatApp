@@ -4,7 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.fleaudie.chatapp.data.repository.AuthRepository
-class CodeViewModel(private var repository: AuthRepository) : ViewModel() {
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+@HiltViewModel
+class CodeViewModel @Inject constructor(private var repository: AuthRepository) : ViewModel() {
 
     private val _verificationResult = MutableLiveData<Boolean>()
     val verificationResult: LiveData<Boolean>

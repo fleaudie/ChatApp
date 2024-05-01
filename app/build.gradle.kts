@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("com.google.gms.google-services")
     id("androidx.navigation.safeargs.kotlin")
+    id ("com.google.dagger.hilt.android")
 }
 
 android {
@@ -67,4 +68,8 @@ dependencies {
     kapt ("com.github.bumptech.glide:compiler:4.12.0")
 
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    implementation ("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
 }

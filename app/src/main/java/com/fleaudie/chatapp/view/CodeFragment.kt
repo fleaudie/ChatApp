@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.fleaudie.chatapp.R
@@ -15,10 +16,12 @@ import com.fleaudie.chatapp.databinding.FragmentCodeBinding
 import com.fleaudie.chatapp.viewmodel.CodeViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CodeFragment : Fragment() {
     private lateinit var binding: FragmentCodeBinding
-    private lateinit var viewModel: CodeViewModel
+    private val viewModel: CodeViewModel by viewModels()
     private lateinit var verificationId: String
     private lateinit var name: String
     private lateinit var surname: String
@@ -54,10 +57,4 @@ class CodeFragment : Fragment() {
         val otpCode = binding.editTextVerifyCode.text.toString()
         viewModel.verifyOtp(verificationId, otpCode)
     }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val authRepository = AuthRepository(AuthDataSource(requireContext()))
-        viewModel = CodeViewModel(authRepository)
-    }
-
 }

@@ -9,8 +9,10 @@ import com.fleaudie.chatapp.view.SignUpFragmentDirections
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-
-class SignUpViewModel(private var repository: AuthRepository) : ViewModel() {
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+@HiltViewModel
+class SignUpViewModel @Inject constructor(private var repository: AuthRepository) : ViewModel() {
 
     fun sendVerificationCode(fragment: Fragment, phoneNumber: String, name: String, surname: String) {
         val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {

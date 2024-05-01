@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -24,12 +25,14 @@ import com.fleaudie.chatapp.databinding.FragmentMessageBinding
 import com.fleaudie.chatapp.databinding.PopupProfileDetailBinding
 import com.fleaudie.chatapp.viewmodel.MessageViewModel
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MessageFragment : Fragment() {
     private lateinit var binding : FragmentMessageBinding
     private lateinit var name: String
     private lateinit var adapter: MessageAdapter
-    private lateinit var viewModel: MessageViewModel
+    private val viewModel: MessageViewModel by viewModels()
     private lateinit var receiverId: String
     private lateinit var text: String
     private lateinit var phoneNumber: String
@@ -136,12 +139,4 @@ class MessageFragment : Fragment() {
         popupBinding.txtReceiverName.text = name
         popupBinding.txtReceiverNumber.text = number
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val repository = ChatRepository(ChatDataSource())
-        viewModel = MessageViewModel(repository)
-    }
-
-
 }

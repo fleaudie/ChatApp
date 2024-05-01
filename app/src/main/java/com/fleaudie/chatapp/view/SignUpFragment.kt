@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.fleaudie.chatapp.R
@@ -16,10 +17,12 @@ import com.fleaudie.chatapp.databinding.FragmentSignUpBinding
 import com.fleaudie.chatapp.viewmodel.SignUpViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpFragment : Fragment() {
     private lateinit var binding : FragmentSignUpBinding
-    private lateinit var viewModel : SignUpViewModel
+    private val viewModel : SignUpViewModel by viewModels()
     private lateinit var navController: NavController
     private var user = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -48,12 +51,6 @@ class SignUpFragment : Fragment() {
             Log.d("SignUpFragment", "Phone number: $phoneNumber")
         }
 
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val authRepository = AuthRepository(AuthDataSource(requireContext()))
-        viewModel = SignUpViewModel(authRepository)
     }
 
     override fun onStart() {

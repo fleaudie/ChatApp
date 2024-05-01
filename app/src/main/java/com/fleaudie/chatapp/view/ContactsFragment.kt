@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fleaudie.chatapp.R
@@ -18,10 +19,12 @@ import com.fleaudie.chatapp.databinding.FragmentContactsBinding
 import com.fleaudie.chatapp.helpers.ContactHelper
 import com.fleaudie.chatapp.viewmodel.ContactViewModel
 import com.fleaudie.chatapp.viewmodel.ContactViewModel.Companion.PERMISSIONS_REQUEST_CODE
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ContactsFragment : Fragment() {
     private lateinit var binding : FragmentContactsBinding
-    private lateinit var contactViewModel: ContactViewModel
+    private val contactViewModel: ContactViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,12 +38,10 @@ class ContactsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        contactViewModel = ViewModelProvider(this)[ContactViewModel::class.java]
         if (contactViewModel.checkPermissions(requireContext())) {
             val contactsHelper = ContactHelper(requireContext().contentResolver)
             val contactsList = contactsHelper.getContactsFromDevice()
             contactsHelper.saveContactsToFirestore()
-
             val registeredUsers = mutableListOf<Contact>()
             val unregisteredUsers = mutableListOf<Contact>()
 

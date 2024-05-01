@@ -6,8 +6,11 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ContactViewModel : ViewModel() {
+@HiltViewModel
+class ContactViewModel @Inject constructor() : ViewModel() {
 
     fun checkPermissions(context: Context): Boolean {
         return ContextCompat.checkSelfPermission(

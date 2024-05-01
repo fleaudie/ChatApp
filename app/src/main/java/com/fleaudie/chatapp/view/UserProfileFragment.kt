@@ -9,22 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.fleaudie.chatapp.R
-import com.fleaudie.chatapp.data.datasource.AuthDataSource
 import com.fleaudie.chatapp.data.datasource.UserProfileDataSource
-import com.fleaudie.chatapp.data.repository.AuthRepository
 import com.fleaudie.chatapp.data.repository.UserProfileRepository
 import com.fleaudie.chatapp.databinding.FragmentUserProfileBinding
 import com.fleaudie.chatapp.helpers.PopupHelper
 import com.fleaudie.chatapp.viewmodel.UserProfileViewModel
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserProfileFragment : Fragment() {
     private lateinit var binding: FragmentUserProfileBinding
-    private lateinit var viewModel: UserProfileViewModel
+    private val viewModel: UserProfileViewModel by viewModels()
     private lateinit var navController: NavController
     private lateinit var popupHelper: PopupHelper
 
@@ -54,14 +55,6 @@ class UserProfileFragment : Fragment() {
             loadProfileImage()
         }
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val repository = UserProfileRepository(UserProfileDataSource())
-        val authRepository = AuthRepository(AuthDataSource(requireContext()))
-        viewModel = UserProfileViewModel(repository, authRepository)
-    }
-
     fun profileSettings() {
         viewModel.getUserData { name, surname, _, uid ->
             if (name != null && surname != null && uid != null) {

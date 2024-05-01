@@ -6,8 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.fleaudie.chatapp.data.model.Message
 import com.fleaudie.chatapp.data.repository.ChatRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MessageViewModel(private val repository: ChatRepository): ViewModel(){
+@HiltViewModel
+class MessageViewModel @Inject constructor(private val repository: ChatRepository): ViewModel(){
     private val _messageList = MutableLiveData<List<Message>>()
     val messageList: LiveData<List<Message>> = _messageList
 

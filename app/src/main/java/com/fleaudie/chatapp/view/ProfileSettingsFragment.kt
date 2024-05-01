@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.fleaudie.chatapp.R
@@ -18,10 +19,12 @@ import com.fleaudie.chatapp.databinding.FragmentProfileSettingsBinding
 import com.fleaudie.chatapp.helpers.PopupHelper
 import com.fleaudie.chatapp.viewmodel.ProfileSettingsViewModel
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileSettingsFragment : Fragment() {
     private lateinit var binding: FragmentProfileSettingsBinding
-    private lateinit var viewModel: ProfileSettingsViewModel
+    private val viewModel: ProfileSettingsViewModel by viewModels()
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var popupHelper: PopupHelper
 
@@ -107,12 +110,6 @@ class ProfileSettingsFragment : Fragment() {
                 binding.imgEditUserPhoto.setImageResource(R.drawable.empty_profile_image)
             }
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val repository = UserProfileRepository(UserProfileDataSource())
-        viewModel = ProfileSettingsViewModel(repository)
     }
 
 }

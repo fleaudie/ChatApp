@@ -3,8 +3,11 @@ package com.fleaudie.chatapp.viewmodel
 import androidx.lifecycle.ViewModel
 import com.fleaudie.chatapp.data.repository.UserProfileRepository
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class UserProfileViewModel(private var repository: UserProfileRepository) : ViewModel() {
+@HiltViewModel
+class UserProfileViewModel @Inject constructor(private var repository: UserProfileRepository) : ViewModel() {
     fun logOut(){
         FirebaseAuth.getInstance().signOut()
     }

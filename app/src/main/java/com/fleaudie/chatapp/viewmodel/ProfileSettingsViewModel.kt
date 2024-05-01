@@ -1,8 +1,11 @@
 package com.fleaudie.chatapp.viewmodel
 
+import androidx.lifecycle.ViewModel
 import com.fleaudie.chatapp.data.repository.UserProfileRepository
-
-class ProfileSettingsViewModel(private var repository: UserProfileRepository) {
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+@HiltViewModel
+class ProfileSettingsViewModel @Inject constructor(private var repository: UserProfileRepository) : ViewModel() {
     fun uploadProfileImage(imageBytes: ByteArray, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
         repository.uploadProfileImage(imageBytes, onSuccess, onFailure)
     }

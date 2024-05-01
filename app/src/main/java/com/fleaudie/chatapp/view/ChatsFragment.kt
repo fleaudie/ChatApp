@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.fleaudie.chatapp.R
 import com.fleaudie.chatapp.databinding.FragmentChatsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChatsFragment : Fragment() {
 
     private lateinit var binding: FragmentChatsBinding
