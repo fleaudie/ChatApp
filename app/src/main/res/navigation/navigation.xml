@@ -50,18 +50,6 @@
         <action
             android:id="@+id/action_chatFragment_to_messageFragment"
             app:destination="@id/messageFragment" />
-        <argument
-            android:name="receiverName"
-            app:argType="string" />
-        <argument
-            android:name="receiverId"
-            app:argType="string" />
-        <argument
-            android:name="lastMessage"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_chatFragment_to_messageFragment2"
-            app:destination="@id/messageFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactsFragment"

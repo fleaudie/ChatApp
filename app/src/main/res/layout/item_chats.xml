@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="itemChatObject"
+            type="com.fleaudie.chatapp.data.model.Chat" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -20,6 +22,7 @@
                 android:id="@+id/imgProfile"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:scaleType="centerCrop"
@@ -34,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
-                android:text="TextView"
+                android:text="@{itemChatObject.name}"
                 android:textColor="@color/text_color"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -46,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:text="TextView"
+                android:text="@{itemChatObject.phoneNumber}"
                 android:textColor="@color/hint_color"
                 app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
                 app:layout_constraintStart_toStartOf="@+id/txtName" />
@@ -55,6 +58,7 @@
                 android:id="@+id/txtLastMsgDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:text="TextView"
                 android:textColor="@color/hint_color"
                 app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
