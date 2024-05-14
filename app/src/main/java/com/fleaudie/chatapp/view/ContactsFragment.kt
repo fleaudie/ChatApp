@@ -10,7 +10,6 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fleaudie.chatapp.R
 import com.fleaudie.chatapp.adapters.ContactsAdapter

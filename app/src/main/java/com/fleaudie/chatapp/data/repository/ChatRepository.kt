@@ -4,19 +4,27 @@ import com.fleaudie.chatapp.data.datasource.ChatDataSource
 import com.fleaudie.chatapp.data.model.Message
 
 class ChatRepository(private val dataSource: ChatDataSource) {
-    fun sendMessage(senderId: String, receiverId: String, text: String, onSuccess: () -> Unit, onFailure: (String) -> Unit) {
+    fun sendMessage(
+        senderId: String,
+        receiverId: String,
+        text: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
         dataSource.sendMessage(senderId, receiverId, text, onSuccess, onFailure)
     }
 
-    fun fetchMessages(senderId: String, receiverId: String, onSuccess: (List<Message>) -> Unit, onFailure: (String) -> Unit){
+    fun fetchMessages(senderId: String, receiverId: String, onSuccess: (List<Message>) -> Unit, onFailure: (String) -> Unit) {
         dataSource.fetchMessages(senderId, receiverId, onSuccess, onFailure)
     }
+
 
     fun getProfileImageUrls(
         phoneNumber: String,
         onSuccess: (Map<String, String>) -> Unit,
         onFailure: (Exception) -> Unit
-    ){
+    ) {
         dataSource.getProfileImageUrls(phoneNumber, onSuccess, onFailure)
     }
+
 }

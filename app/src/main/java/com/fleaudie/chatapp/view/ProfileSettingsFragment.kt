@@ -13,8 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.fleaudie.chatapp.R
-import com.fleaudie.chatapp.data.datasource.UserProfileDataSource
-import com.fleaudie.chatapp.data.repository.UserProfileRepository
 import com.fleaudie.chatapp.databinding.FragmentProfileSettingsBinding
 import com.fleaudie.chatapp.helpers.PopupHelper
 import com.fleaudie.chatapp.viewmodel.ProfileSettingsViewModel
@@ -75,27 +73,51 @@ class ProfileSettingsFragment : Fragment() {
     }
 
     fun editName() {
-        popupHelper.showEditNamePopup(binding.textViewEditName.text.toString()) { newName ->
+        popupHelper.showEditNamePopup { newName ->
             binding.textViewEditName.text = newName
 
             viewModel.updateUserName(newName,
                 onSuccess = {
-                    view?.let { it1 -> Snackbar.make(it1, "Name changed successfully!", Snackbar.LENGTH_SHORT).show() }
+                    view?.let { it1 ->
+                        Snackbar.make(
+                            it1,
+                            "Name changed successfully!",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
                 }, onFailure = {
-                    view?.let { it1 -> Snackbar.make(it1, "Error changing name!", Snackbar.LENGTH_SHORT).show() }
+                    view?.let { it1 ->
+                        Snackbar.make(
+                            it1,
+                            "Error changing name!",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
                 })
         }
     }
 
     fun editSurname(){
-        popupHelper.showEditSurnamePopup(binding.textViewEditSurname.text.toString()) { newSurname ->
+        popupHelper.showEditSurnamePopup { newSurname ->
             binding.textViewEditSurname.text = newSurname
 
             viewModel.updateUserSurname(newSurname,
                 onSuccess = {
-                    view?.let { it1 -> Snackbar.make(it1, "Surname changed successfully!", Snackbar.LENGTH_SHORT).show() }
+                    view?.let { it1 ->
+                        Snackbar.make(
+                            it1,
+                            "Surname changed successfully!",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
                 }, onFailure = {
-                    view?.let { it1 -> Snackbar.make(it1, "Error changing name!", Snackbar.LENGTH_SHORT).show() }
+                    view?.let { it1 ->
+                        Snackbar.make(
+                            it1,
+                            "Error changing name!",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
                 })
         }
     }

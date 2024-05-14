@@ -1,6 +1,5 @@
 package com.fleaudie.chatapp.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,17 +17,16 @@ class MessageViewModel @Inject constructor(private val repository: ChatRepositor
         repository.sendMessage(senderId, receiverId, text, onSuccess, onFailure)
     }
 
-    fun fetchMessages(senderId: String, receiverId: String, onSuccess: (List<Message>) -> Unit, onFailure: (String) -> Unit){
-        repository.fetchMessages(senderId, receiverId, {
-            _messageList.postValue(it)
-            Log.d("MessageViewModel", "Fetched messages: $it")
-            onSuccess(it)
-        }, { error ->
-            Log.e("MessageViewModel", "Error fetching messages: $error")
-            onFailure(error)
-        })
+    fun fetchMessages(senderId: String, receiverId: String, onSuccess: (List<Message>) -> Unit, onFailure: (String) -> Unit) {
+        repository.fetchMessages(senderId, receiverId,
+            onSuccess = { messages ->
+                onSuccess(messages)
+            },
+            onFailure = { error ->
+                onFailure(error)
+            }
+        )
     }
-
     fun getProfileImageUrls(
         phoneNumber: String,
         onSuccess: (Map<String, String>) -> Unit,
@@ -36,5 +34,4 @@ class MessageViewModel @Inject constructor(private val repository: ChatRepositor
     ){
         repository.getProfileImageUrls(phoneNumber, onSuccess, onFailure)
     }
-
 }

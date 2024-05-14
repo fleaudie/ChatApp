@@ -6,7 +6,6 @@ data class Message(
     val senderId: String = "",
     val receiverId: String = "",
     val message: String = "",
-    val timestamp: Date = Date()
-) {
-    constructor() : this("", "", "")
-}
+    val timestamp: Date = Date(),
+    val lastMessage : String = ""
+)

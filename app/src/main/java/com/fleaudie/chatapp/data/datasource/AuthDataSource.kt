@@ -9,13 +9,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class AuthDataSource(private val context: Context) {
     private val db = FirebaseFirestore.getInstance()
+
     fun sendVerificationCode(
         phoneNumber: String,
         callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     ) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
             phoneNumber,
-            60, // Timeout duration
+            60,
             java.util.concurrent.TimeUnit.SECONDS,
             context as Activity,
             callbacks
@@ -27,10 +28,8 @@ class AuthDataSource(private val context: Context) {
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // OTP verification successful
                     callback(true)
                 } else {
-                    // OTP verification failed
                     callback(false)
                 }
             }

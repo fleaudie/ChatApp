@@ -1,111 +1,90 @@
 package com.fleaudie.chatapp.helpers
 
-import android.content.ContentResolver
 import android.util.Log
-import com.fleaudie.chatapp.data.model.Chat
-import com.fleaudie.chatapp.data.model.Contact
+import com.fleaudie.chatapp.data.model.ChatInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import javax.inject.Inject
 
-class ChatHelper @Inject constructor(private val contentResolver: ContentResolver) {
-    private val firestore = FirebaseFirestore.getInstance()
+class ChatHelper @Inject constructor() {
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val db = FirebaseFirestore.getInstance()
 
-    fun getContacts(onSuccess: (List<Chat>) -> Unit, onFailure: (Exception) -> Unit) {
-        val contactsList = mutableListOf<Chat>()
-        if (currentUser != null) {
-            val userId = currentUser.uid
+    private val contactNamesMap = mutableMapOf<String, String>()
 
-            db.collection("users")
-                .document(userId)
-                .collection("contacts")
-                .get()
+    init {
+        getContactsFromFirestore()
+    }
+
+    private fun getContactsFromFirestore() {
+        currentUser?.let { user ->
+            val userContactsRef = db.collection("users").document(user.uid).collection("contacts")
+            userContactsRef.get()
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
+                        val phoneNumber = document.getString("phoneNumber")
                         val contactName = document.getString("name")
-                        val contactPhoneNumber = document.getString("phoneNumber")
-                        val chat = contactName?.let {
-                            if (contactPhoneNumber != null) {
-                                Chat(it, contactPhoneNumber)
-                            } else {
-                                null
+                        phoneNumber?.let { contactNumber ->
+                            contactName?.let { name ->
+                                contactNamesMap[contactNumber] = name
                             }
                         }
-                        chat?.let {
-                            contactsList.add(it)
-                        }
                     }
-                    onSuccess(contactsList)
                 }
                 .addOnFailureListener { exception ->
-                    onFailure(exception)
+                    Log.e(TAG, "Error getting contacts from Firestore: $exception")
                 }
-        } else {
-            onFailure(Exception("User is null"))
         }
     }
 
-    fun checkPhoneNumber(phoneNumber: String, onSuccess: (uid: String?) -> Unit, onFail: () -> Unit) {
-        db.collection("users")
-            .whereEqualTo("phoneNumber", phoneNumber)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    val uid = documents.documents[0].id
-                    onSuccess(uid)
-                } else {
-                    onFail()
-                }
-            }
-            .addOnFailureListener { e ->
-                Log.e(TAG, "Error checking phone number", e)
-            }
-    }
+    fun listenForLastMessages(userId: String, onSuccess: (List<ChatInfo>) -> Unit, onFailure: (Exception) -> Unit) {
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
 
-    fun getProfileImageUrls(
-        phoneNumber: String,
-        onSuccess: (Map<String, String>) -> Unit,
-        onFailure: (Exception) -> Unit
-    ) {
-        val profileImageUrls = mutableMapOf<String, String>()
-        db.collection("users")
-            .whereEqualTo("phoneNumber", phoneNumber)
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val number = document.getString("phoneNumber") ?: continue
-                    val profileImageUrl = document.getString("profileImageUrl")
-                    if (!profileImageUrl.isNullOrEmpty()) {
-                        profileImageUrls[number] = profileImageUrl
-                    }
+        userRef.collection("chats")
+            .addSnapshotListener { chatDocuments, exception ->
+                if (exception != null) {
+                    onFailure(exception)
+                    return@addSnapshotListener
                 }
-                onSuccess(profileImageUrls)
-            }
-            .addOnFailureListener { exception ->
-                onFailure(exception)
-            }
-    }
 
-    fun getLastMessage(chatId: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
-        firestore.collection("chats")
-            .document(chatId)
-            .collection("messages")
-            .orderBy("timestamp", Query.Direction.DESCENDING)
-            .limit(1)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    val lastMessage = documents.documents[0].getString("text")
-                    onSuccess(lastMessage ?: "")
-                } else {
-                    onSuccess("")
+                val chatInfoList = mutableListOf<ChatInfo>()
+
+                chatDocuments?.forEach { chatDocument ->
+                    val partnerId = chatDocument.id
+                    val lastMessage = chatDocument.getString("lastMessage")
+                    val lastTimestamp = chatDocument.getDate("timestamp")
+
+                    FirebaseFirestore.getInstance().collection("users").document(partnerId)
+                        .get()
+                        .addOnSuccessListener { userDocument ->
+                            if (userDocument != null) {
+                                val profileImageUrl = userDocument.getString("profileImageUrl")
+                                val partnerPhoneNumber = userDocument.getString("phoneNumber")
+                                val contactName = contactNamesMap[partnerPhoneNumber]
+
+                                val chatInfo = lastTimestamp?.let {
+                                    ChatInfo(
+                                        lastMessage ?: "",
+                                        partnerId,
+                                        profileImageUrl ?: "",
+                                        partnerPhoneNumber ?: "",
+                                        contactName ?: "",
+                                        it
+                                    )
+                                }
+                                if (chatInfo != null) {
+                                    chatInfoList.add(chatInfo)
+                                }
+                                onSuccess(chatInfoList)
+                            } else {
+                                Log.e(TAG, "User document not found for ID: $partnerId")
+                            }
+                        }
+                        .addOnFailureListener { e ->
+                            onFailure(e)
+                            Log.e(TAG, "Error getting user document for ID: $partnerId, $e")
+                        }
                 }
-            }
-            .addOnFailureListener { exception ->
-                onFailure(exception)
             }
     }
 

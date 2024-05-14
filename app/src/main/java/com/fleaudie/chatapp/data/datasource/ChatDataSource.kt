@@ -5,6 +5,8 @@ import com.fleaudie.chatapp.data.model.Message
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import java.util.Calendar
 import java.util.Date
 
 class ChatDataSource {
@@ -19,6 +21,32 @@ class ChatDataSource {
             val message = Message(senderId, receiverId, text, Date())
             val senderChatRef = getUserChatReference(senderId, receiverId)
             val receiverChatRef = getUserChatReference(receiverId, senderId)
+
+
+            val currentTime = Calendar.getInstance().time
+            val lastMessageData = mapOf(
+                "lastMessage" to text,
+                "timestamp" to currentTime
+            )
+
+
+            senderChatRef.set(lastMessageData, SetOptions.merge())
+                .addOnSuccessListener {
+                    Log.d("ChatDataSource", "sendMessage: Sender chat document updated")
+                }
+                .addOnFailureListener { e ->
+                    Log.e("ChatDataSource", "sendMessage: Error updating sender chat document", e)
+                }
+
+
+            receiverChatRef.set(lastMessageData, SetOptions.merge())
+                .addOnSuccessListener {
+                    Log.d("ChatDataSource", "sendMessage: Receiver chat document updated")
+                }
+                .addOnFailureListener { e ->
+                    Log.e("ChatDataSource", "sendMessage: Error updating receiver chat document", e)
+                }
+
 
             senderChatRef.collection("messages")
                 .add(message)
@@ -36,11 +64,18 @@ class ChatDataSource {
         }
     }
 
+
     private fun getUserChatReference(userId: String, chatUserId: String): DocumentReference {
         return firestore.collection("users").document(userId).collection("chats").document(chatUserId)
     }
 
-    fun fetchMessages(senderId: String, receiverId: String, onSuccess: (List<Message>) -> Unit, onFailure: (String) -> Unit) {
+
+    fun fetchMessages(
+        senderId: String,
+        receiverId: String,
+        onSuccess: (List<Message>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
         val chatRef = getUserChatReference(senderId, receiverId)
         chatRef.collection("messages")
             .orderBy("timestamp")
@@ -51,14 +86,19 @@ class ChatDataSource {
                 }
 
                 val messages = mutableListOf<Message>()
+
                 querySnapshot?.documents?.forEach { document ->
                     val timestamp = document.getDate("timestamp")
                     val message = timestamp?.let { document.toObject(Message::class.java)?.copy(timestamp = it) }
-                    message?.let { messages.add(it) }
+                    message?.let {
+                        messages.add(it)
+                    }
                 }
+
                 onSuccess(messages)
             }
     }
+
 
     fun getProfileImageUrls(
         phoneNumber: String,

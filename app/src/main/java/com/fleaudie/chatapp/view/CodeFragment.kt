@@ -10,8 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.fleaudie.chatapp.R
-import com.fleaudie.chatapp.data.datasource.AuthDataSource
-import com.fleaudie.chatapp.data.repository.AuthRepository
 import com.fleaudie.chatapp.databinding.FragmentCodeBinding
 import com.fleaudie.chatapp.viewmodel.CodeViewModel
 import com.google.android.material.snackbar.Snackbar

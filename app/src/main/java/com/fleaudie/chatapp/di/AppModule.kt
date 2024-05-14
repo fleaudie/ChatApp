@@ -16,7 +16,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -26,7 +25,7 @@ class AppModule {
         return PhoneAuthProvider.getInstance()
     }
     @Provides
-    fun provideAuthDataSource(@ApplicationContext context: Context) : AuthDataSource{
+    fun provideAuthDataSource(@ApplicationContext context: Context): AuthDataSource {
         return AuthDataSource(context)
     }
     @Provides

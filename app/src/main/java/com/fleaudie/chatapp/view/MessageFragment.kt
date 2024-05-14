@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.fleaudie.chatapp.R
 import com.fleaudie.chatapp.adapters.MessageAdapter
-import com.fleaudie.chatapp.data.datasource.ChatDataSource
-import com.fleaudie.chatapp.data.repository.ChatRepository
 import com.fleaudie.chatapp.databinding.FragmentMessageBinding
 import com.fleaudie.chatapp.databinding.PopupProfileDetailBinding
 import com.fleaudie.chatapp.viewmodel.MessageViewModel
@@ -79,10 +77,9 @@ class MessageFragment : Fragment() {
                 }
             }
         }
-
         if (currentUserId != null) {
             viewModel.fetchMessages(currentUserId, receiverId,
-                onSuccess = { messages ->
+                onSuccess = { messages->
                     val sortedMessages = messages.sortedBy { it.timestamp }
                     adapter.updateMessages(sortedMessages)
                     binding.rcyMessages.scrollToPosition(sortedMessages.size - 1)
@@ -135,6 +132,7 @@ class MessageFragment : Fragment() {
                 Toast.makeText(requireContext(), "Error install user detail.", Toast.LENGTH_SHORT).show()
             }
         )
+
 
         popupBinding.txtReceiverName.text = name
         popupBinding.txtReceiverNumber.text = number

@@ -2,6 +2,7 @@ package com.fleaudie.chatapp.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,7 @@ class MessageAdapter(private var messages: List<Message>, private var mContext: 
     override fun onBindViewHolder(holder: MessageAdapter.MessageViewHolder, position: Int) {
         val message = messages[position]
         val binding = holder.view
-
+        Log.e("tag",message.lastMessage)
 
         val messageDate = getFormattedDate(message.timestamp)
 

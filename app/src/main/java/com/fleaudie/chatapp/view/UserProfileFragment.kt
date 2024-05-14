@@ -14,8 +14,6 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.fleaudie.chatapp.R
-import com.fleaudie.chatapp.data.datasource.UserProfileDataSource
-import com.fleaudie.chatapp.data.repository.UserProfileRepository
 import com.fleaudie.chatapp.databinding.FragmentUserProfileBinding
 import com.fleaudie.chatapp.helpers.PopupHelper
 import com.fleaudie.chatapp.viewmodel.UserProfileViewModel

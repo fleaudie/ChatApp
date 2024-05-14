@@ -31,7 +31,7 @@ class ContactHelper @Inject constructor(private val contentResolver: ContentReso
                         if (!existingContacts.contains(contact.contactNumber)) {
                             val contactData = hashMapOf(
                                 "name" to contact.contactName,
-                                "phoneNumber" to contact.contactNumber
+                                "phoneNumber" to contact.contactNumber.replace("\\s".toRegex(), "")
                             )
 
                             userContactsRef.add(contactData)

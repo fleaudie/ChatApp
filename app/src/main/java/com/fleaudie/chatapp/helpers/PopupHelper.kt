@@ -14,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class PopupHelper(private val context: Context) {
 
-    fun showEditNamePopup(name: String, onSuccess: (String) -> Unit) {
+    fun showEditNamePopup(onSuccess: (String) -> Unit) {
         val inflater = LayoutInflater.from(context)
         val binding = PopupEditNameBinding.inflate(inflater, null, false)
         val view = binding.root
@@ -41,7 +41,7 @@ class PopupHelper(private val context: Context) {
         }
     }
 
-    fun showEditSurnamePopup(surname: String, onSuccess: (String) -> Unit) {
+    fun showEditSurnamePopup(onSuccess: (String) -> Unit) {
         val inflater = LayoutInflater.from(context)
         val binding = PopupEditSurnameBinding.inflate(inflater, null, false)
         val view = binding.root

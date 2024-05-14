@@ -1,28 +1,28 @@
 package com.fleaudie.chatapp.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fleaudie.chatapp.R
-import com.fleaudie.chatapp.data.model.Chat
+import com.fleaudie.chatapp.data.model.ChatInfo
 import com.fleaudie.chatapp.databinding.ItemChatsBinding
-import com.fleaudie.chatapp.helpers.ChatHelper
 import com.fleaudie.chatapp.view.ChatsFragmentDirections
+import java.text.SimpleDateFormat
+import java.util.*
 
-class ChatAdapter(private val chats: List<Chat>, private var mContext: Context, private val navController: NavController) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
-    private lateinit var chatHelper: ChatHelper
+class ChatAdapter(private var chats: List<ChatInfo>, private val mContext: Context) :
+    RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
-    inner class ChatViewHolder(val view: ItemChatsBinding) : RecyclerView.ViewHolder(view.root)
+    inner class ChatViewHolder(var view: ItemChatsBinding) :
+        RecyclerView.ViewHolder(view.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
-        val binding: ItemChatsBinding = DataBindingUtil.inflate(
+        val binding : ItemChatsBinding = DataBindingUtil.inflate(
             LayoutInflater.from(mContext),
             R.layout.item_chats,
             parent,
@@ -33,41 +33,34 @@ class ChatAdapter(private val chats: List<Chat>, private var mContext: Context, 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chat = chats[position]
         val t = holder.view
-        t.itemChatObject = chat
 
-        chatHelper = ChatHelper(mContext.contentResolver)
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
+        val currentTime = Calendar.getInstance().timeInMillis
+        val messageTime = chat.lastTimestamp.time
+        val differenceInMillis = currentTime - messageTime
 
-        val formattedPhoneNumber = chat.phoneNumber.replace("\\s".toRegex(), "")
-        chatHelper.checkPhoneNumber(formattedPhoneNumber, onSuccess = { uid ->
-            val navController = navController
-            t.cardChats.setOnClickListener {
-                uid?.let {
-                    val action = ChatsFragmentDirections.actionChatFragmentToMessageFragment(
-                        uid,
-                        chat.name,
-                        chat.phoneNumber
-                    )
-                    Log.d("TAG", "User exist, UID: $it")
-                    navController.navigate(action)
-                }
-            }
-            t.cardChats.visibility = View.VISIBLE
-        }, onFail = {
-            t.cardChats.visibility = View.GONE
-        })
+        val oneDayInMillis = 24 * 60 * 60 * 1000
 
-        chatHelper.getProfileImageUrls(
-            formattedPhoneNumber,
-            onSuccess = { profileImageUrls ->
-                val profileImageUrl = profileImageUrls[formattedPhoneNumber]
-                profileImageUrl?.let {
-                    Glide.with(mContext)
-                        .load(it)
-                        .into(t.imgProfile)
-                }
-            }
-        ) { exception ->
-            Log.e("ContactsAdapter", "Error getting profile image URL: ${exception.message}")
+        val formattedDate: String = if (differenceInMillis >= oneDayInMillis) {
+            dateFormat.format(Date(messageTime))
+        } else {
+            SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(messageTime))
+        }
+
+        with(holder.view) {
+            txtLastMessage.text = chat.lastMessage
+            txtName.text = chat.partnerName
+            txtLastMsgDate.text = formattedDate
+            Glide.with(mContext).load(chat.profileImage).into(imgProfile)
+        }
+
+        t.cardChats.setOnClickListener {
+            val action = ChatsFragmentDirections.actionChatFragmentToMessageFragment(
+                chat.partnerId,
+                chat.partnerName,
+                chat.partnerPhoneNumber
+            )
+            Navigation.findNavController(it).navigate(action)
         }
     }
 
@@ -75,4 +68,13 @@ class ChatAdapter(private val chats: List<Chat>, private var mContext: Context, 
         return chats.size
     }
 
+    private fun sortChatsByDate(chats: List<ChatInfo>): List<ChatInfo> {
+        return chats.sortedByDescending { it.lastTimestamp }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(newChats: List<ChatInfo>) {
+        chats = sortChatsByDate(newChats)
+        notifyDataSetChanged()
+    }
 }
